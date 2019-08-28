@@ -1,0 +1,18 @@
+Variant calling tutorial notes:
+
+need to figure out which data to use. 
+
+	coverage should be higher. 
+
+	should use same data across all tutorials. 
+
+	should use multiple samples. 
+
+should cover variant filtering steps better. 
+
+BQSR?
+VQSR?
+
+should do QC/alignment 2x. first piecewise, then piping steps together. 
+
+GATK and FB should proceed from the same alignment set instead of duplicating effort. 
