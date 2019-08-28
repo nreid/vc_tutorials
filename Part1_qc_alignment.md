@@ -1,5 +1,10 @@
 # Stepwise QC, alignment, post-alignment processing. #
 
+## Setting up working directory ##
+```bash
+mkdir -p vc_workshop/rawdata vc_workshop/fastqc vc_workshop/align_stepwise vc_workshop/scripts
+cd vc_workshop
+```
 
 ## download data ##
 
@@ -37,3 +42,21 @@ DAD='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG006_NA24694-hu
 
 samtools view -uh $DAD chr20:10000000-15000000 | samtools sort -n - | bedtools bamtofastq -i /dev/stdin/ -fq dad.1.fq -fq2 dad.2.fq
 ```
+
+## Assessing read quality ##
+
+
+## Quality trimmming ##
+
+
+## Alignment ##
+
+
+## Marking duplicates ##
+
+
+## Sorting ##
+
+
+
+
