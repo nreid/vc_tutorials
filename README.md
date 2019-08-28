@@ -2,7 +2,7 @@
 
 In this repository, re-working variant detection tutorials for UConn CBC workshop. 
 
-_Proposed structure:_
+__Proposed structure:__
 
 1. Stepwise QC, alignment, post-alignment processing. 
 
@@ -19,7 +19,7 @@ _Proposed structure:_
 
 5. Variant annotation. 
 
-_Proposed data:_
+__Proposed data:__
 
 NIST Genome in a Bottle asian trio. chr20:10000000-15000000
 
