@@ -9,7 +9,8 @@ cd vc_workshop
 ## download data ##
 
 NIST GIAB data, chinese trio. 
-45x coverage bam files for chr20:10000000-15000000
+son: 45x coverage bam files for chr20:10000000-15000000
+mother & father: 100x coverage bam files for chr20:10000000-15000000
 
 Data from:
 https://www.nist.gov/programs-projects/genome-bottle
@@ -46,6 +47,7 @@ samtools view -uh $DAD chr20:10000000-15000000 | samtools sort -n - | bedtools b
 ## Assessing read quality ##
 
 
+
 ## Quality trimmming ##
 
 
@@ -58,5 +60,7 @@ samtools view -uh $DAD chr20:10000000-15000000 | samtools sort -n - | bedtools b
 ## Sorting ##
 
 
+## Exploring SAM files ##
 
-
+Explain SAM flags:
+https://broadinstitute.github.io/picard/explain-flags.html
