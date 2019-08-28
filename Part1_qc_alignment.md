@@ -48,7 +48,7 @@ samtools view -uh $DAD chr20:10000000-15000000 | samtools sort -n - | bedtools b
 
 
 
-## Quality trimmming ##
+## Quality trimming ##
 
 
 ## Alignment ##
