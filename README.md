@@ -10,11 +10,12 @@ Proposed structure:
 
 3. Part 1, but a piped example. 
 
-4a. Variant calling: Freebayes, post-filtering. 
+4. 
+	a. Variant calling: Freebayes, post-filtering. 
 
-4b. Variant calling: GATK, joint calling using gvcf. post-filtering. 
+	b. Variant calling: GATK, joint calling using gvcf. post-filtering. 
 
-4c. Beyond variant calling: genotype likelihoods. (depending on audience?)
+	c. Beyond variant calling: genotype likelihoods. (depending on audience?)
 
 5. Variant annotation. 
 
