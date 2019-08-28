@@ -23,3 +23,6 @@ Proposed data:
 
 NIST Genome in a Bottle asian trio. chr20:10000000-15000000
 
+https://www.nist.gov/programs-projects/genome-bottle
+
+ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
