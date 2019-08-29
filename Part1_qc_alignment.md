@@ -1,6 +1,6 @@
 # Stepwise QC, alignment, post-alignment processing. #
 
-## Setting up working directory ##
+## Set up a working directory ##
 ```bash
 mkdir -p vc_workshop/rawdata vc_workshop/fastqc vc_workshop/align_stepwise vc_workshop/scripts
 cd vc_workshop
@@ -42,7 +42,7 @@ scripts:
 
 not generally necessary, but sickle, trimmomatic
 
-## Alignment and compression ##
+## Align and compress ##
 
 bwa mem, samtools
 
@@ -57,7 +57,7 @@ samtools
 scripts:	
 - scripts/Part1e_sort.sh
 
-## Marking duplicates ##
+## Mark duplicates ##
 
 picard
 
@@ -71,7 +71,7 @@ samtools
 scripts:
 - scripts/Part1g_indexbams.sh
 
-## Exploring SAM files ##
+# Exploring SAM files #
 
 _perhaps this should be broken out into a separate sub-section_
 
