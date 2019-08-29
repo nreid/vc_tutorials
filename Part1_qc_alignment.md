@@ -63,7 +63,7 @@ not generally necessary, but sickle, trimmomatic
 bwa mem, samtools
 
 scripts:	
-- scripts/Part1c_alignment.sh<br>
+- scripts/Part1c_align.sh<br>
 - scripts/Part1d_compress.sh
 
 ## Sorting ##
