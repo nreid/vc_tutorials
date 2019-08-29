@@ -40,14 +40,14 @@ scripts:
 
 ## Quality trim ##
 
-not generally necessary, but sickle, trimmomatic
+not generally necessary for variant calling, but sickle and trimmomatic can be used. 
 
 ## Align and compress ##
 
 bwa mem, samtools
 
 scripts:	
-- scripts/Part1c_align.sh<br>
+- scripts/Part1c_align.sh    
 - scripts/Part1d_compress.sh
 
 ## Sort reads by genome position ##
