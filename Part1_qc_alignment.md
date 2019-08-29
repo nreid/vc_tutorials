@@ -60,14 +60,14 @@ not generally necessary, but sickle, trimmomatic
 
 bwa mem, samtools
 
-script:	scripts/Part1c_alignment.sh<br>
-		scripts/Part1d_compress.sh
+script:	- scripts/Part1c_alignment.sh<br>
+		- scripts/Part1d_compress.sh
 
 ## Sorting ##
 
 samtools
 
-script:	scripts/Part1e_sort.sh
+script:	- scripts/Part1e_sort.sh
 
 ## Marking duplicates ##
 
