@@ -44,9 +44,13 @@ DAD='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG006_NA24694-hu
 samtools view -uh $DAD chr20:10000000-15000000 | samtools sort -n - | bedtools bamtofastq -i /dev/stdin/ -fq dad.1.fq -fq2 dad.2.fq
 ```
 
+script: scripts/Part1a_datadownload.sh
+
 ## Assessing read quality ##
 
 FastQC is used to evaluate the quality of the raw sequencing data. 
+
+script: scripts/Part1b_fastqc.sh
 
 ## Quality trimming ##
 
@@ -56,17 +60,26 @@ not generally necessary, but sickle, trimmomatic
 
 bwa mem, samtools
 
+script:	scripts/Part1c_alignment.sh
+		scripts/Part1d_compress.sh
+
 ## Sorting ##
 
 samtools
+
+script:	scripts/Part1e_sort.sh
 
 ## Marking duplicates ##
 
 picard
 
+script:	scripts/Part1f_markduplicates.sh
+
 ## indexing ##
 
 samtools
+
+script:	scripts/Part1g_indexbams.sh
 
 ## Exploring SAM files ##
 
