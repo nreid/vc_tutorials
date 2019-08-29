@@ -9,14 +9,11 @@
 3.    [ Download data ](#Download-data)
 4.    [ Assess read quality ](#Assess-read-quality)
 5.    [ Quality trim ](#Quality-trim)
-6.    [SAM to BAM Conversion and Remove Singletons](#sam-to-bam-conversion)
-7.    [Remove Singletons](#remove-singletons)
-8.    [Sort BAM files using PICARD](#sort-bam-files-using-picard)
-9.    [Remove PCR Duplicates using PICARD](#remove-pcr-duplicates-using-picard)
-10.   [Add Read Group Information](#add-read-group-information)
-11.   [Reorder BAM file](#reorder-bam-file)
-12.   [Base Recalibration](#base-recalibration)
-13.   [Variant Calling](#variant-calling)
+6.    [ Align and compress ](#Align-and-compress)
+7.    [ Sort reads by genome position ](#Sort-reads-by-genome-position)
+8.    [ Mark duplicates ](#Mark-duplicates)
+9.    [ Index alignment files ](#Index-alignment-files)
+10.   [ Exploring SAM files ](#Exploring-SAM-files)
 
 
 ## Set up a working directory ##
