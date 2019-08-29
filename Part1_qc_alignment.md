@@ -1,10 +1,31 @@
 # Stepwise QC, alignment, post-alignment processing. #
 
+## Introduction
+
+## Contents
+  
+1.    [ Set up a working directory ](#Set-up-a-working-directory)  
+2.    [ Prepare reference genome ](#Prepare-Reference-genome)
+3.    [ Download data ](#Download-data)
+4.    [ Assess read quality ](#Assess-read-quality)
+5.    [ Quality trim ](#Quality-trim)
+6.    [SAM to BAM Conversion and Remove Singletons](#sam-to-bam-conversion)
+7.    [Remove Singletons](#remove-singletons)
+8.    [Sort BAM files using PICARD](#sort-bam-files-using-picard)
+9.    [Remove PCR Duplicates using PICARD](#remove-pcr-duplicates-using-picard)
+10.   [Add Read Group Information](#add-read-group-information)
+11.   [Reorder BAM file](#reorder-bam-file)
+12.   [Base Recalibration](#base-recalibration)
+13.   [Variant Calling](#variant-calling)
+
+
 ## Set up a working directory ##
 ```bash
 mkdir -p vc_workshop/rawdata vc_workshop/fastqc vc_workshop/align_stepwise vc_workshop/scripts
 cd vc_workshop
 ```
+
+## Prepare Reference genome
 
 ## Download data ##
 
@@ -86,11 +107,11 @@ Add discussion of SAM format here.
 _Useful links:_
 - [SAM specification](https://samtools.github.io/hts-specs/SAMv1.pdf)
 
-- [Explain SAM flags (column 2)](https://broadinstitute.github.io/picard/explain-flags.html)
+- [Explain SAM flags](https://broadinstitute.github.io/picard/explain-flags.html)
 
 ___
 
-We can get a lot of basic stats on the SAM file using samtools stats:
+We can get a lot of basic stats on the SAM file using "samtools stats":
 
 ```bash
 # set reference genome location
@@ -98,7 +119,7 @@ GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction
 # run samtools stats
 samtools stats -r $GEN son.mkdup.bam >son.samstat.txt
 ```
-This file is rather messy, but we can remove specific parts of it using grep. 
+This file is rather messy, but we can pull out specific parts of it using grep. 
 
 These are some basic stats about the alignment file:
 
@@ -128,7 +149,7 @@ We expect the parents to have 100x coverage and the son to have 50x coverage. Is
 
 ___
 
-Samtools has implemented a simple alignment viewer in 'tview'. IGV is better, but tview is right in the terminal. Let's look at this region. 
+Samtools has implemented a simple alignment viewer in 'tview'. IGV is better, but tview is right in the terminal. Let's look at the same region as above. 
 
 ```bash
 # set reference genome location
@@ -137,7 +158,7 @@ GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction
 samtools tview --reference $GEN dad.mkdup.bam
 ```
 
-After opening tview, type 'g' then enter 'chr20:13934265' to visit a particular location. 
+After opening tview, type 'g' then enter 'chr20:13934265' to visit that location. 
 "?" will bring up a help dialog
 "q" exits
 
