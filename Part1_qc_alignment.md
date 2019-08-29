@@ -123,6 +123,8 @@ grep ^COV son.samstat.txt | cut -f 2-
 ```
 And there is much more information. 
 
+___
+
 We can look at the per base coverage of individual regions easily using "samtools depth"
 
 ```bash
@@ -131,6 +133,8 @@ samtools depth -f list.bam -r chr20:13934265-13934558
 ```
 
 We expect the parents to have 100x coverage and the son to have 50x coverage. Is there anything unusual about this region?
+
+___
 
 Samtools has implemented a simple alignment viewer in 'tview'. IGV is better, but tview is right in the terminal. Let's look at this region. 
 
@@ -145,5 +149,6 @@ After opening tview, type 'g' then enter 'chr20:13934265' to visit a particular 
 "?" will bring up a help dialog
 "q" exits
 
+___
 
-igv
+IGV is a much better way of visualizing alignment files...
