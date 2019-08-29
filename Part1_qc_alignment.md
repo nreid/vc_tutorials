@@ -2,6 +2,17 @@
 
 ## Introduction
 
+This section of the tutorial deals with quality control, alignment to a reference genome, and post-processing of high-throughput short-read sequencing data in preparation for variant calling. In this section, steps are executed individually. For an example using pipes, see Part 3. 
+
+Each step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) scheduler. The code can easily be modified to run interactively, or in other contexts. 
+
+Steps here will use the following software packages:
+
+- [samtools](http://www.htslib.org/doc/samtools.html)
+- [picard tools](https://broadinstitute.github.io/picard/)
+- [bwa](http://bio-bwa.sourceforge.net/)
+- along with a variety of utilities available on unix-like operating systems. 
+
 ## Contents
   
 1.    [ Set up a working directory ](#Set-up-a-working-directory)  
