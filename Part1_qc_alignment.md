@@ -71,6 +71,8 @@ samtools
 scripts:
 - scripts/Part1g_indexbams.sh
 
+___
+
 # Exploring SAM files #
 
 _perhaps this should be broken out into a separate sub-section_
