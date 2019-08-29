@@ -6,7 +6,7 @@ mkdir -p vc_workshop/rawdata vc_workshop/fastqc vc_workshop/align_stepwise vc_wo
 cd vc_workshop
 ```
 
-## download data ##
+## Download data ##
 
 NIST GIAB data, chinese trio. 
 son: 45x coverage bam files for chr20:10000000-15000000
@@ -47,14 +47,14 @@ samtools view -uh $DAD chr20:10000000-15000000 | samtools sort -n - | bedtools b
 scripts:
 - scripts/Part1a_datadownload.sh
 
-## Assessing read quality ##
+## Assess read quality ##
 
 FastQC is used to evaluate the quality of the raw sequencing data. 
 
 scripts: 
 - scripts/Part1b_fastqc.sh
 
-## Quality trimming ##
+## Quality trim ##
 
 not generally necessary, but sickle, trimmomatic
 
@@ -66,7 +66,7 @@ scripts:
 - scripts/Part1c_align.sh<br>
 - scripts/Part1d_compress.sh
 
-## Sorting ##
+## Sort reads by genome position ##
 
 samtools
 
@@ -80,27 +80,49 @@ picard
 scripts:
 - scripts/Part1f_markduplicates.sh
 
-## indexing ##
+## Index alignment files ##
 
 samtools
 
 scripts:
 - scripts/Part1g_indexbams.sh
 
-## Exploring SAM files ##
+## Explore SAM files ##
 
-Now that we have processed alignment files we can learn about sam files and do some exploring. 
+Now that we have processed alignment files we can learn about sam files and do some exploring. The ability to inspect and summarize various aspects of an alignment file can be especially helpful when something has gone wrong with sequencing or bioinformatic analysis. 
 
+There are no scripts for the section below. Run the code interactively. 
+
+Add discussion of SAM format here. 
+
+_Useful links:_
 SAM specification:
 https://samtools.github.io/hts-specs/SAMv1.pdf
 
 Explain SAM flags (column 2):
 https://broadinstitute.github.io/picard/explain-flags.html
 
-We can get a lot of basic stats on the SAM file:
+We can get a lot of basic stats on the SAM file using samtools stats:
+
 ```bash
-samtools stats son.mkdup.bam >son.samstat.txt
+GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+samtools stats -r $GEN son.mkdup.bam >son.samstat.txt
 ```
+This file is rather messy, but we can remove specific parts of it using grep. 
+
+These are some basic stats about the alignment file:
+
+```bash
+grep ^SN son.samstat.txt | cut -f 2-
+```
+
+This is a histogram of per base coverage:
+
+```bash
+grep ^COV son.samstat.txt | cut -f 2-
+```
+And there is much more information. 
+
 We can look at the per base coverage of individual regions easily using "samtools depth"
 
 ```bash
