@@ -50,7 +50,8 @@ script: scripts/Part1a_datadownload.sh
 
 FastQC is used to evaluate the quality of the raw sequencing data. 
 
-script: scripts/Part1b_fastqc.sh
+scripts: 
+- scripts/Part1b_fastqc.sh
 
 ## Quality trimming ##
 
@@ -60,8 +61,9 @@ not generally necessary, but sickle, trimmomatic
 
 bwa mem, samtools
 
-script:	- scripts/Part1c_alignment.sh<br>
-		- scripts/Part1d_compress.sh
+scripts:	
+- scripts/Part1c_alignment.sh<br>
+- scripts/Part1d_compress.sh
 
 ## Sorting ##
 
