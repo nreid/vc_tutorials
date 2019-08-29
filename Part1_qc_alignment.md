@@ -44,7 +44,8 @@ DAD='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG006_NA24694-hu
 samtools view -uh $DAD chr20:10000000-15000000 | samtools sort -n - | bedtools bamtofastq -i /dev/stdin/ -fq dad.1.fq -fq2 dad.2.fq
 ```
 
-script: scripts/Part1a_datadownload.sh
+scripts:
+- scripts/Part1a_datadownload.sh
 
 ## Assessing read quality ##
 
@@ -69,19 +70,22 @@ scripts:
 
 samtools
 
-script:	- scripts/Part1e_sort.sh
+scripts:	
+- scripts/Part1e_sort.sh
 
 ## Marking duplicates ##
 
 picard
 
-script:	scripts/Part1f_markduplicates.sh
+scripts:
+- scripts/Part1f_markduplicates.sh
 
 ## indexing ##
 
 samtools
 
-script:	scripts/Part1g_indexbams.sh
+scripts:
+- scripts/Part1g_indexbams.sh
 
 ## Exploring SAM files ##
 
