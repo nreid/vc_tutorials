@@ -46,33 +46,63 @@ samtools view -uh $DAD chr20:10000000-15000000 | samtools sort -n - | bedtools b
 
 ## Assessing read quality ##
 
-fastqc
+FastQC is used to evaluate the quality of the raw sequencing data. 
 
 ## Quality trimming ##
 
 not generally necessary, but sickle, trimmomatic
 
-## Alignment ##
+## Alignment and compression ##
 
-bwa mem
-
-## Marking duplicates ##
-
-samblaster / picard
+bwa mem, samtools
 
 ## Sorting ##
 
 samtools
 
+## Marking duplicates ##
+
+picard
+
+## indexing ##
+
+samtools
+
 ## Exploring SAM files ##
 
-Explain SAM flags:
+Now that we have processed alignment files we can learn about sam files and do some exploring. 
+
+SAM specification:
+https://samtools.github.io/hts-specs/SAMv1.pdf
+
+Explain SAM flags (column 2):
 https://broadinstitute.github.io/picard/explain-flags.html
 
-samtools depth
+We can get a lot of basic stats on the SAM file:
+```bash
+samtools stats son.mkdup.bam >son.samstat.txt
+```
+We can look at the per base coverage of individual regions easily using "samtools depth"
 
-samtools samstat
+```bash
+ls *mkdup.bam >list.bam
+samtools depth -f list.bam -r chr20:13934265-13934558
+```
 
-samtools tview
+We expect the parents to have 100x coverage and the son to have 50x coverage. Is there anything unusual about this region?
+
+Samtools has implemented a simple alignment viewer in 'tview'. IGV is better, but tview is right in the terminal. Let's look at this region. 
+
+```bash
+# set reference genome location
+GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+# run samtools tview
+samtools tview --reference $GEN dad.mkdup.bam
+```
+
+After opening tview, type 'g' then enter 'chr20:13934265' to visit a particular location. 
+"?" will bring up a help dialog
+"q" exits
+
 
 igv

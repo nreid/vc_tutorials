@@ -31,13 +31,11 @@ GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction
 # note that read group info is added during alignment. 
 
 # each line aligns one family member's sequences
+# son
 bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN $indir/son.1.fq $indir/son.2.fq -o $outdir/son.sam
+# mom
 bwa mem -t 4 -R '@RG\tID:mom\tSM:mom' $GEN $indir/mom.1.fq $indir/mom.2.fq -o $outdir/mom.sam
+# dad
 bwa mem -t 4 -R '@RG\tID:dad\tSM:dad' $GEN $indir/dad.1.fq $indir/dad.2.fq -o $outdir/dad.sam
 
 
-#SAM to BAM CONVERSION
-module load samtools/1.7
-samtools view -bS son.sam >son.bam
-samtools view -bS mom.sam >mom.bam
-samtools view -bS dad.sam >dad.bam

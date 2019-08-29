@@ -17,13 +17,13 @@ assume we start with QC'ed fastq files.
 bwa mem | samblaster | samtools sort >sample.bam.
 ```
 
-using bwa mem we align and tag sequences with read groups. 
+using bwa mem we first align and tag sequences with read groups. 
 
-we stream the output using a pipe to samblaster, which marks duplicates. it can also identify split and discordantly mapping reads and write them to a separate file. useful for structural variation identification.
+next we stream the output using a pipe to samblaster, which marks duplicates. it can also identify split and discordantly mapping reads and write them to a separate file. useful for structural variation identification.
 
-we stream that output to samtools sort. 
+finally we stream that output to samtools sort and write a compressed bam file. 
 
-instead of reading and writing our sequences 4 times, resulting in 5 copies of our sequence data, we now only have two copies, the original fastq files, and processed bam files. 
+instead of reading and writing our sequences 5 times, resulting in 6 copies of our sequence data, we now only have two copies, the original fastq files, and processed bam files. 
 
 if we have multiple sets of fastq files for each sample, we can then merge them into a single file. this is convenient, although not strictly necessary: both GATK and Freebayes identify which reads belong to which samples by the read group tags, and not the bam file from which they originated. 
 
