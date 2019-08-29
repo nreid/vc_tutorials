@@ -96,9 +96,9 @@ There are no scripts for the section below. Run the code interactively.
 Add discussion of SAM format here. 
 
 _Useful links:_
-- SAM specification: https://samtools.github.io/hts-specs/SAMv1.pdf
+- [SAM specification](https://samtools.github.io/hts-specs/SAMv1.pdf)
 
-- Explain SAM flags (column 2): https://broadinstitute.github.io/picard/explain-flags.html
+- [Explain SAM flags (column 2)](https://broadinstitute.github.io/picard/explain-flags.html)
 
 We can get a lot of basic stats on the SAM file using samtools stats:
 
