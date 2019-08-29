@@ -105,7 +105,9 @@ ___
 We can get a lot of basic stats on the SAM file using samtools stats:
 
 ```bash
+# set reference genome location
 GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+# run samtools stats
 samtools stats -r $GEN son.mkdup.bam >son.samstat.txt
 ```
 This file is rather messy, but we can remove specific parts of it using grep. 
@@ -128,7 +130,9 @@ ___
 We can look at the per base coverage of individual regions easily using "samtools depth"
 
 ```bash
+# make a list of bam files
 ls *mkdup.bam >list.bam
+# run samtools depth using that list
 samtools depth -f list.bam -r chr20:13934265-13934558
 ```
 
