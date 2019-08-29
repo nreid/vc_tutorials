@@ -46,21 +46,33 @@ samtools view -uh $DAD chr20:10000000-15000000 | samtools sort -n - | bedtools b
 
 ## Assessing read quality ##
 
-
+fastqc
 
 ## Quality trimming ##
 
+not generally necessary, but sickle, trimmomatic
 
 ## Alignment ##
 
+bwa mem
 
 ## Marking duplicates ##
 
+samblaster / picard
 
 ## Sorting ##
 
+samtools
 
 ## Exploring SAM files ##
 
 Explain SAM flags:
 https://broadinstitute.github.io/picard/explain-flags.html
+
+samtools depth
+
+samtools samstat
+
+samtools tview
+
+igv

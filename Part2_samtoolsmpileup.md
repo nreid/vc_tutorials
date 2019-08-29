@@ -1,1 +1,1 @@
-# samtools mpileup. 
+# Variant discovery using samtools. 
