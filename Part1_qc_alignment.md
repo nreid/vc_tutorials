@@ -87,7 +87,7 @@ samtools
 scripts:
 - scripts/Part1g_indexbams.sh
 
-## Explore SAM files ##
+## Exploring SAM files ##
 
 Now that we have processed alignment files we can learn about sam files and do some exploring. The ability to inspect and summarize various aspects of an alignment file can be especially helpful when something has gone wrong with sequencing or bioinformatic analysis. 
 
@@ -99,6 +99,8 @@ _Useful links:_
 - [SAM specification](https://samtools.github.io/hts-specs/SAMv1.pdf)
 
 - [Explain SAM flags (column 2)](https://broadinstitute.github.io/picard/explain-flags.html)
+
+___
 
 We can get a lot of basic stats on the SAM file using samtools stats:
 
