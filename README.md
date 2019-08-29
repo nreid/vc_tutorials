@@ -28,6 +28,5 @@ an arbitrary 5mb region of the genome.
 - 50-100x coverage for each of 3 individuals. 
 
 source:
-https://www.nist.gov/programs-projects/genome-bottle
-
-ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
+- https://www.nist.gov/programs-projects/genome-bottle
+- ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
