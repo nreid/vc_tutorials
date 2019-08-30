@@ -52,7 +52,7 @@ samtools faidx $GEN
 
 For all following steps of the workshop, we'll use data from the [Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) project, hosted by the [National Institute of Standards and Technology](https://www.nist.gov). The data were collected as part of an effort to create reference standards to compare genomic workflows. Large quantities of sequencing data have been generated on multiple platforms (Illumina, PacBio, etc) for seven individuals. 
 
-We are going to use data from a trio (mother, father, and son) of Chinese ancestry. The data consist of 250bp paired end reads sequenced on an Illumina HiSeq 2500. To ensure the analyses run quickly, we'll only use data from 5 megabases of chromosome 20 (10mb - 15mb). The expected sequencing coverage is 100x for the mother and father, and 45x for the son. 
+We're going to use data from a trio (mother, father, and son) of Chinese ancestry. The data consist of 250bp paired end reads sequenced on an Illumina HiSeq 2500. To ensure the analyses run quickly, we'll only use data from 5 megabases of chromosome 20 (10mb - 15mb). The expected sequencing coverage is 100x for the mother and father, and 45x for the son. 
 
 More information about the data can be found at the links below:
 https://www.nist.gov/programs-projects/genome-bottle
@@ -60,11 +60,12 @@ ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
 
 To download the data, we'll use `samtools`. The data have already been aligned to a reference genome, and the resulting BAM file has been compressed and indexed. This will allow us to get reads only from the region we're interested in. Conveniently, `samtools` can read BAM files from an ftp server, provided the index is present, so we won't need to download the whole dataset. We'll then convert the data back to the unaligned fastq format using `bedtools` so we can continue with the tutorial.
 
-We'll accomplish this with a unix pipeline, where the symbol "|" allows us to take the output of the command to the left, and redirect it as input to the command to the right. 
-The commands are as follows:
+We'll accomplish this with a unix pipeline, where the symbol "|" indicates that the output of the command to the left should be redirected as input to the command to the right. This will be discussed in more detail in Part 3 of the tutorial. 
 
-`samtools view -bh <file> <region>` outputs the given region from the file, includes the header, outputs as bam.  
-`samtools sort -n -` sorts the reads by name, so that read pairs will be found together in the file. the `-` indicates the data should be read from the pipe.    
+The commands to be chained together are as follows:
+
+`samtools view -bh <file> <region>` outputs the given `region` from the `file`, includes the header, and outputs as a compressed BAM file.  
+`samtools sort -n -` sorts the reads by name so that read pairs will be found together in the file. The `-` indicates the data should be read from the pipe.    
 `bedtools bamtofastq` converts bam format back to fastq. In this case `/dev/stdin/` indicates the data should be read from the pipe. 
 
 Below is an example of this code put together to download data for the son:
@@ -75,9 +76,8 @@ SON='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG005_NA24631_so
 samtools view -uh $SON chr20:10000000-15000000 | samtools sort -n - | bedtools bamtofastq -i /dev/stdin/ -fq son.1.fq -fq2 son.2.fq
 ```
 
-
 scripts:
-- scripts/Part1a_datadownload.sh
+- [scripts/Part1a_datadownload.sh](scripts/Part1a_datadownload.sh)
 
 ## Assess read quality ##
 
