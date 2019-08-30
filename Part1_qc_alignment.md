@@ -178,7 +178,7 @@ scripts:
 
 ## Align and compress ##
 
-Now that we have QC-ed our sequence data, it's time to align it to a reference genome. For that we'll use `bwa`, one of the most widely used short-read aligners. `bwa` implements several alignment methods, but `mem` is currently the best. We previously indexed our reference genome, so we're ready to go here. 
+Now that we have QC-ed our sequence data, it's time to align it to a reference genome. For that we'll use `bwa`, one of the most widely used short-read aligners. `bwa` implements several alignment methods, but `mem` is best for our application. We previously indexed our reference genome, so we're ready to go here. 
 
 ```bash
 # set a variable 'GEN' that gives the location and base name of the reference genome:
@@ -206,14 +206,43 @@ scripts:
 
 ## Sort reads by genome position ##
 
-samtools
+To call variants at a given position in the reference genome, we need to look at all the reads that overlap that position. In order to do this efficiently, we need to sort the reads in the alignment files by their positions in the reference genome. We'll use `picard tools` for this. For example:
+
+```bash
+IN=../align_stepwise/son.bam
+OUT=../align_stepwise/son.sort.bam
+java -jar $PICARD SortSam \
+        INPUT=$IN \
+        OUTPUT=$OUT \
+        SORT_ORDER=coordinate \
+        CREATE_INDEX=True
+```
 
 scripts:	
 - [scripts/Part1e_sort.sh](scripts/Part1e_sort.sh)
 
 ## Mark duplicates ##
 
-picard
+Duplicate sequences are those which originate from the same molecule after extracting and shearing genomic DNA. There are two types: optical and polymerase chain reaction (PCR) duplicates. Optical duplicates are an error introduced by the sequencer. PCR duplicates are introduced by library prepartion protocols that use PCR. Duplicates cause 2 types of artifacts that mislead variant callers. 
+- __First__, errors introduced by the polymerase can be propagated to multiple copies of a given fragment. Because these errors are actually part of the DNA sequence, they are likely to have high base qualities. If many sequences from the fragment containing the error are present, the variant caller can be deceived into identifying it as biological variation. 
+- __Second__, when variant callers call genotypes, they assume that heterozygous sites will have equal representation of both alleles in the sequence pool (as they should for germ-line mutations). Dramatically unbalanced coverage of an allele can be a signal that variation is spurious. Because of its exponential reproduction of fragments, PCR can randomly alter allele balance, causing a variant caller to incorrectly call genotypes as homozygotes, or a whole site as invariant. 
+
+Duplicate sequences can be identified most easily from paired-end data as those for which both reads have identical start sites. This may eliminate some sequences which are in fact derived from unique fragments in the original library, but if fragmentation is actually random, identical fragments should be rare. 
+
+Here is some example code:
+
+```bash
+# assign input and output file names to variables
+IN=../align_stepwise/son.sort.bam
+OUT=../align_stepwise/son.mkdup.bam
+# run MarkDuplicates
+java -jar $PICARD MarkDuplicates \
+        INPUT=$IN \
+        OUTPUT=$OUT \
+        METRICS_FILE=$IN.metrics.txt \
+        ASSUME_SORT_ORDER=coordinate \
+        CREATE_INDEX=True
+```
 
 scripts:
 - [scripts/Part1f_markduplicates.sh](scripts/Part1f_markduplicates.sh)
