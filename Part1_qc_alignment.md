@@ -155,8 +155,8 @@ sickle pe -t sanger \
 	-l 100 \
 	-f ../rawdata/$SEQ.1.fq \
 	-r ../rawdata/$SEQ.2.fq \
-    -o ../rawdata/$SEQ.trim.1.fq \
- 	-p ../rawdata/$SEQ.trim.2.fq \
+	-o ../rawdata/$SEQ.trim.1.fq \
+	-p ../rawdata/$SEQ.trim.2.fq \
 	-s ../rawdata/$SEQ.trim.0.fq
 ```
 
