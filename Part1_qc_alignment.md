@@ -118,6 +118,9 @@ The command below will count the number of reads in the file.
 grep -c "^+" son.1.fq
 ```   
 
+It's worth noting that while we are using uncompressed fastq files in this example, all of the programs we are working with will accept files compressed using gzip (generally denoted with the file extension '.gz'), and it's good practice to keep fastq files compressed so they use less storage space. 
+
+
 ## Assess read quality ##
 
 In order to evaluate the general quality of reads in the file we will use the `FastQC` package.  The command can take multiple files as input and outputs a quality report in html format. 
@@ -172,6 +175,16 @@ scripts:
 
 
 ## Align and compress ##
+
+Now that we have QC-ed our sequence data, it's time to align it to a reference genome. For that we'll use `bwa`, one of the most widely used short-read aligners. `bwa` implements several alignment methods, but `mem` is currently the best. We previously indexed our reference genome, so we're ready to go here. 
+
+```bash
+# set a variable 'GEN' that gives the location and base name of the reference genome:
+GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
+# execute bwa mem
+bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN ../rawdata/son.1.fq ../rawdata/son.2.fq -o ../align_stepwise/son.sam
+```
+
 
 bwa mem, samtools
 
