@@ -152,12 +152,12 @@ We could trim the reads for the son as follows:
 ```bash
 SEQ=son
 sickle pe -t sanger \
-    -l 100 \
-    -f ../rawdata/$SEQ.1.fq \
+	-l 100 \
+	-f ../rawdata/$SEQ.1.fq \
 	-r ../rawdata/$SEQ.2.fq \
     -o ../rawdata/$SEQ.trim.1.fq \
-    -p ../rawdata/$SEQ.trim.2.fq \
-    -s ../rawdata/$SEQ.trim.0.fq
+ 	-p ../rawdata/$SEQ.trim.2.fq \
+	-s ../rawdata/$SEQ.trim.0.fq
 ```
 
 This would discard any read trimmed shorter than 100bp, and if its pair was longer than 100bp, it would be placed in the file given by `-s`, which would be read as `../rawdata/son.trim.0.fq`. 
