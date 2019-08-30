@@ -10,8 +10,8 @@ Steps here will use the following software packages:
 - [picard tools](https://broadinstitute.github.io/picard/)
 - [bwa](http://bio-bwa.sourceforge.net/)
 - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-- along with a variety of utilities available on unix-like operating systems. 
-`    
+- along with a variety of utilities available on unix-like operating systems.     
+
 Each step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) scheduler. The code can easily be modified to run interactively, or in other contexts. 
 
 
