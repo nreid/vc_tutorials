@@ -259,7 +259,7 @@ The last step in preparing the reads is to index the bam files. This needs to be
 samtools index ../align_stepwise/*mkdup.bam
 ```
 
-Finally, at this point, may have noticed that we have generated six copies of our data. Two copies of the fastq files, and four copies of the alignment files. This is a large and space-wasting mess. If we were working with many samples of high coverage human genomes, we would want to go and delete the intermediate files. Another approach, detailed in Part 3, would pipe many of these steps together and avoid creating some of the intermediate files. 
+Finally, at this point, may have noticed that we have accumulated six copies of our data. Two copies of the fastq files, and four copies of the alignment files. This is a large and space-wasting mess. If we were working with many samples of high coverage human genomes, we would want to go and delete the intermediate alignment files and the trimmed fastqs, keeping only the original fastqs and the analysis-ready bams. Another approach, detailed in Part 3, would pipe many of these steps together and avoid creating some of the intermediate files to begin with. 
 
 ___
 
