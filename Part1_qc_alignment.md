@@ -10,6 +10,7 @@ Steps here will use the following software packages:
 - [picard tools](https://broadinstitute.github.io/picard/)
 - [bwa](http://bio-bwa.sourceforge.net/)
 - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+- [sickle](https://github.com/najoshi/sickle)
 - along with a variety of utilities available on unix-like operating systems.    
 
 Each major step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
@@ -142,9 +143,9 @@ scripts:
 
 ## Quality trim ##
 
-Current variant callers account for uncertainties in mapping (conditional on the quality of the reference genome) and in base calling, so quality trimming is not generally necessary for this application. However, if you have a dataset plagued by adapter contamination or poor quality reads, you may want to try trimming to salvage it and/or remove some of the noise. 
+Current variant callers account for uncertainties in mapping (conditional on the quality of the reference genome) and in base calling, so quality trimming is not generally necessary for this application (the worrisome sources of error in variant calling are "known unknowns", like the incompleteness of the reference genome, or systematic error arising from library prep). However, if you have a dataset plagued by adapter contamination or poor quality reads, you may want to try trimming to salvage it and/or remove some of the noise. 
 
-`sickle` is a commonly used for this task. 
+`sickle` is a commonly used tool for this task. 
 
 We could trim the reads for the son as follows:
 
