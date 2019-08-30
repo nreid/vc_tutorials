@@ -261,10 +261,11 @@ samtools index ../align_stepwise/*mkdup.bam
 
 Finally, at this point, may have noticed that we have generated six copies of our data. Two copies of the fastq files, and four copies of the alignment files. This is a large and space-wasting mess. If we were working with many samples of high coverage human genomes, we would want to go and delete the intermediate files. Another approach, detailed in Part 3, would pipe many of these steps together and avoid creating some of the intermediate files. 
 
+___
+
 scripts:
 - [scripts/Part1g_indexbams.sh](scripts/Part1g_indexbams.sh)
 
-___
 
 # Exploring SAM files #
 
