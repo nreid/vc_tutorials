@@ -192,6 +192,12 @@ The `-R` flag specifies the read group information. Adding read group informatio
 
 When simultaneously calling variants on many samples, variant callers do not track reads by their alignment file of origin, but using read group information. If this information is absent, all reads will be treated as if they came from a single sample, and a single genotype call will result. Maintaining detailed read group information can also be helpful if some sequencing runs turn out to be problematic. In that case, even if all reads are pooled in a single bam file, there are tools you can use to filter out undesirable read groups on the fly.  
 
+Finally, we'll compress the resulting alignment file:
+
+```bash
+samtools view -bhS ../rawdata/son.sam >../align_stepwise/son.bam
+```
+
 
 scripts:	
 - [scripts/Part1c_align.sh](scripts/Part1c_align.sh)    
