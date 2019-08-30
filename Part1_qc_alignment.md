@@ -58,10 +58,16 @@ More information about the data can be found at the links below:
 https://www.nist.gov/programs-projects/genome-bottle
 ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
 
-samtools view -bh <file> <region> outputs the given region from the file, includes the header, outputs as bam. 
-'bedtools bamtofastq' converts bam format back to fastq (so we can practice turning it back into a bam later!)
+To download the data, we'll use `samtools`. The data have already been aligned to a reference genome, and the resulting BAM file has been compressed and indexed. This will allow us to get reads only from the region we're interested in. Conveniently, `samtools` can read BAM files from an ftp server, provided the index is present, so we won't need to download the whole dataset. We'll then convert the data back to the unaligned fastq format using `bedtools` so we can continue with the tutorial.
 
-For example, this code would download data for the son:
+We'll accomplish this with a unix pipeline, where the symbol "|" allows us to take the output of the command to the left, and redirect it as input to the command to the right. 
+The commands are as follows:
+
+`samtools view -bh <file> <region>` outputs the given region from the file, includes the header, outputs as bam. 
+`samtools sort -n` sorts the reads by name, so that read pairs will be found together in the file. 
+`bedtools bamtofastq` converts bam format back to fastq (so we can practice turning it back into a bam later!)
+
+Below is an example of this code put together to download data for the son:
 
 ```bash
 SON='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG005_NA24631_son/HG005_NA24631_son_HiSeq_300x/basespace_45x_bams_vcfs_PerFlowCell/150424_HG005_Homogeneity_02_FCA-22108087/150424_HG005_Homogeneity_FCA_Combined-23168145/150424-HG005-Homogeneity-FCA-Combined_S1.bam'
