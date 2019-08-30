@@ -198,6 +198,7 @@ Finally, we'll compress the resulting alignment file:
 samtools view -bhS ../rawdata/son.sam >../align_stepwise/son.bam
 ```
 
+Because we're doing all steps individually, you may note that at this point (if we've done the quality trimming) we now have 4 copies of our sequence data. 
 
 scripts:	
 - [scripts/Part1c_align.sh](scripts/Part1c_align.sh)    
