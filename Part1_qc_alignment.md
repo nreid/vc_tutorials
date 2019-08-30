@@ -246,6 +246,8 @@ java -jar $PICARD MarkDuplicates \
 
 In this example, duplicate sequences remain in the file, but they are flagged as such. 
 
+___
+
 scripts:
 - [scripts/Part1f_markduplicates.sh](scripts/Part1f_markduplicates.sh)
 
