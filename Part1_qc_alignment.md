@@ -56,9 +56,9 @@ For all following steps of the workshop, we'll use data from the [Genome in a Bo
 
 We're going to use data from a trio (mother, father, and son) of Chinese ancestry. The data consist of 250bp paired end reads sequenced on an Illumina HiSeq 2500. To ensure the analyses run quickly, we'll only use data from 5 megabases of chromosome 20 (10mb - 15mb). The expected sequencing coverage is 100x for the mother and father, and 45x for the son. 
 
-More information about the data can be found at the links below:
-https://www.nist.gov/programs-projects/genome-bottle
-ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
+More information about the data can be found at the links below:  
+- https://www.nist.gov/programs-projects/genome-bottle
+- ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
 ___
 
 To download the data, we'll use `samtools`. The data have already been aligned to a reference genome, and the resulting BAM file has been compressed and indexed. This will allow us to get reads only from the region we're interested in. Conveniently, `samtools` can read BAM files from an ftp server, provided the index is present, so we won't need to download the whole dataset. We'll then convert the data back to the unaligned fastq format using `bedtools` so we can continue with the tutorial.
