@@ -71,6 +71,8 @@ The commands to be chained together are as follows:
 - `samtools sort -n -` sorts the reads by name so that read pairs will be found together in the file. The `-` indicates the data should be read from the pipe.    
 - `bedtools bamtofastq -i /dev/stdin/ -fq <forward reads> -fq2 <reverse reads>` converts bam format back to fastq. In this case `/dev/stdin/` indicates the data should be read from the pipe. 
 
+The result will be two fastq files, one containing the forward reads and one containing reverse reads with members of each pair on the same lines of their corresponding files. 
+
 Below is an example of this code put together to download data for the son:
 
 ```bash
@@ -184,9 +186,12 @@ GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction
 # execute bwa mem
 bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN ../rawdata/son.1.fq ../rawdata/son.2.fq -o ../align_stepwise/son.sam
 ```
+Here `-t 4` indicates that the program should use four processors, and we feed `bwa mem` both the location of the reference genome and both files of paired end reads.   
 
+The `-R` flag specifies the read group information. Adding read group information is critical, though it does not have to be done at this stage (picard has a tool for adding read groups to alignment files). The read group can specify the source of the reads, including the library, sequencing machine, run, lane (for more see the SAM specification) but critically, for multisample variant calling it should include the sample ID.  
 
-bwa mem, samtools
+When simultaneously calling variants on many samples, variant callers do not track reads by their alignment file of origin, but using read group information. If this information is absent, all reads will be treated as if they came from a single sample, and a single genotype call will result. Maintaining detailed read group information can also be helpful if some sequencing runs turn out to be problematic. In that case, even if all reads are pooled in a single bam file, there are tools you can use to filter out undesirable read groups on the fly.  
+
 
 scripts:	
 - [scripts/Part1c_align.sh](scripts/Part1c_align.sh)    
