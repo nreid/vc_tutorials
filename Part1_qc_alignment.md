@@ -227,7 +227,7 @@ Duplicate sequences are those which originate from the same molecule after extra
 - __First__, errors introduced by the polymerase can be propagated to multiple copies of a given fragment. Because these errors are actually part of the DNA sequence, they are likely to have high base qualities. If many sequences from the fragment containing the error are present, the variant caller can be deceived into identifying it as biological variation. 
 - __Second__, when variant callers call genotypes, they assume that heterozygous sites will have equal representation of both alleles in the sequence pool (as they should for germ-line mutations). Dramatically unbalanced coverage of an allele can be a signal that variation is spurious. Because of its exponential reproduction of fragments, PCR can randomly alter allele balance, causing a variant caller to incorrectly call genotypes as homozygotes, or a whole site as invariant. 
 
-Duplicate sequences can be identified most easily from paired-end data as those for which both reads have identical start sites. This may eliminate some sequences which are in fact derived from unique fragments in the original library, but if fragmentation is actually random, identical fragments should be rare. 
+For these reasons we need to exclude duplicate sequences from analysis. They can be identified most easily from paired-end data as those sequences for which both reads have identical start sites. This may eliminate some sequences which are in fact derived from unique fragments in the original library, but if fragmentation is actually random, identical fragments should be rare. Once identified, duplicate sequences can be marked and ignored during variant calling (or other types of analyses) downstream. 
 
 Here is some example code:
 
@@ -243,6 +243,8 @@ java -jar $PICARD MarkDuplicates \
         ASSUME_SORT_ORDER=coordinate \
         CREATE_INDEX=True
 ```
+
+In this example, duplicate sequences remain in the file, but they are flagged as such. 
 
 scripts:
 - [scripts/Part1f_markduplicates.sh](scripts/Part1f_markduplicates.sh)
