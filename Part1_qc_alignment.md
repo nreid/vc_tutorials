@@ -59,7 +59,6 @@ We're going to use data from a trio (mother, father, and son) of Chinese ancestr
 More information about the data can be found at the links below:
 https://www.nist.gov/programs-projects/genome-bottle
 ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
-
 ___
 
 To download the data, we'll use `samtools`. The data have already been aligned to a reference genome, and the resulting BAM file has been compressed and indexed. This will allow us to get reads only from the region we're interested in. Conveniently, `samtools` can read BAM files from an ftp server, provided the index is present, so we won't need to download the whole dataset. We'll then convert the data back to the unaligned fastq format using `bedtools` so we can continue with the tutorial.
@@ -68,9 +67,9 @@ We'll accomplish this with a unix pipeline, where the symbol `|` indicates that 
 
 The commands to be chained together are as follows:
 
-`samtools view -bh <file> <region>` outputs the given `region` from the `file`, includes the header, and outputs as a compressed BAM file.  
-`samtools sort -n -` sorts the reads by name so that read pairs will be found together in the file. The `-` indicates the data should be read from the pipe.    
-`bedtools bamtofastq -i /dev/stdin/ -fq <forward reads> -fq2 <reverse reads>` converts bam format back to fastq. In this case `/dev/stdin/` indicates the data should be read from the pipe. 
+- `samtools view -bh <file> <region>` outputs the given `region` from the `file`, includes the header, and outputs as a compressed BAM file.  
+- `samtools sort -n -` sorts the reads by name so that read pairs will be found together in the file. The `-` indicates the data should be read from the pipe.    
+- `bedtools bamtofastq -i /dev/stdin/ -fq <forward reads> -fq2 <reverse reads>` converts bam format back to fastq. In this case `/dev/stdin/` indicates the data should be read from the pipe. 
 
 Below is an example of this code put together to download data for the son:
 
