@@ -9,7 +9,7 @@ Steps here will use the following software packages:
 - [samtools](http://www.htslib.org/doc/samtools.html)
 - [picard tools](https://broadinstitute.github.io/picard/)
 - [bwa](http://bio-bwa.sourceforge.net/)
-- [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 - along with a variety of utilities available on unix-like operating systems. 
 `
 Each step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) scheduler. The code can easily be modified to run interactively, or in other contexts. 
@@ -109,16 +109,31 @@ The command below will let you inspect more part of the file.
 less son.1.fq
 ```   
 
- 
-The command below will help you count number of reads in the file
-``` 
--bash-4.2$ grep -c "^@61CC" NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq
+The command below will count the number of reads in the file. 
+```bash
+grep -c "^+" son.1.fq
 ```   
-
 
 ## Assess read quality ##
 
-In order to evaluate the general quality of reads in the file we will be using `FASTQC` package.  The command can take multiple files as input and outputs a quality report in html format. Once the file is generated you have to transfer the file to your local computer to open it and examine the results carefully. To copy the file from the Xanadu cluster please use the `transfer.cam.uchc.edu` node.  
+In order to evaluate the general quality of reads in the file we will use the `FastQC` package.  The command can take multiple files as input and outputs a quality report in html format. 
+
+Our script runs fastqc as follows:
+
+```bash
+fastqc -t 4 -o ../fastqc ../rawdata/*fq
+```
+
+The `*fq` indicates that fastqc should run on all files ending in "fq" in directory `rawdata/`. 
+
+Once the files are generated you have to transfer the file to your local computer to open it and examine the results carefully. To copy the file from the Xanadu cluster please use the `transfer.cam.uchc.edu` node.  
+
+You can use an ftp program, or the unix utility `scp` as:
+```bash
+scp user_name@transfer.cam.uchc.edu:/FULL_PATH_to_FILES/*.html . 
+```
+
+Again, `*html` will indicate that `scp` should copy all files ending in "html"
 
 scripts: 
 - [scripts/Part1b_fastqc.sh](scripts/Part1b_fastqc.sh)
