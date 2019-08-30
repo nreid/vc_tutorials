@@ -18,6 +18,9 @@ should do QC/alignment 2x. first piecewise, then piping steps together.
 GATK and FB should proceed from the same alignment set instead of duplicating effort.
 
 
+in actual text of tutorials should some things be shown? Or only displayed in terminal?
 
+	show help output from running, e.g. `freebayes` with no input?
+	show lines from files, e.g. samfile? fastq?
 
 

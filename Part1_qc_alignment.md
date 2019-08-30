@@ -12,7 +12,7 @@ Steps here will use the following software packages:
 - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 - along with a variety of utilities available on unix-like operating systems.    
 
-Each step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) scheduler. The code can easily be modified to run interactively, or in other contexts. 
+Each major step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
 
 
 ## Contents
@@ -67,7 +67,7 @@ The commands to be chained together are as follows:
 
 `samtools view -bh <file> <region>` outputs the given `region` from the `file`, includes the header, and outputs as a compressed BAM file.  
 `samtools sort -n -` sorts the reads by name so that read pairs will be found together in the file. The `-` indicates the data should be read from the pipe.    
-`bedtools bamtofastq -i /dev/stdin/ -fq <read 1> -fq2 <read 2>` converts bam format back to fastq. In this case `/dev/stdin/` indicates the data should be read from the pipe. 
+`bedtools bamtofastq -i /dev/stdin/ -fq <forward reads> -fq2 <reverse reads>` converts bam format back to fastq. In this case `/dev/stdin/` indicates the data should be read from the pipe. 
 
 Below is an example of this code put together to download data for the son:
 
@@ -135,12 +135,37 @@ scp user_name@transfer.cam.uchc.edu:/FULL_PATH_to_FILES/*.html .
 
 Again, `*html` will indicate that `scp` should copy all files ending in "html"
 
+INSERT FIGURES HERE? OR LEAVE THEM TO WORKSHOP? 
+
 scripts: 
 - [scripts/Part1b_fastqc.sh](scripts/Part1b_fastqc.sh)
 
 ## Quality trim ##
 
-not generally necessary for variant calling, but sickle and trimmomatic can be used. 
+Current variant callers account for uncertainties in mapping (conditional on the quality of the reference genome) and in base calling, so quality trimming is not generally necessary for this application. However, if you have a dataset plagued by adapter contamination or poor quality reads, you may want to try trimming to salvage it and/or remove some of the noise. 
+
+`sickle` is a commonly used for this task. 
+
+We could trim the reads for the son as follows:
+
+```bash
+SEQ=son
+sickle pe -t sanger \
+    -l 100 \
+    -f ../rawdata/$SEQ.1.fq \
+	-r ../rawdata/$SEQ.2.fq \
+    -o ../rawdata/$SEQ.trim.1.fq \
+    -p ../rawdata/$SEQ.trim.2.fq \
+    -s ../rawdata/$SEQ.trim.0.fq
+```
+
+This would discard any read trimmed shorter than 100bp, and if its pair was longer than 100bp, it would be placed in the file given by `-s`, which would be read as `../rawdata/son.trim.0.fq`. 
+
+We can run this script, and run `FastQC` on the trimmed data, but as we will see, it will have little impact for this particular dataset. The next steps will use the untrimmed data. 
+
+scripts:	
+- [scripts/Part1b2_sickle_fastqc.sh](scripts/Part1b2_sickle_fastqc.sh)    
+
 
 ## Align and compress ##
 
