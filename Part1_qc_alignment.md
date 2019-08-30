@@ -253,11 +253,13 @@ scripts:
 
 ## Index alignment files ##
 
-The last step in preparing the reads is to index the bam files. This needs to be done to enable fast access to reads overlapping a given position of the genome. Without the index, if you wanted to access reads at the beginning of chromosome 20, you'd need to read through chromosomes 1-19 until you got there. In this case, `picard` has done that for us as part of MarkDuplicates, but if you used a different approach, you'd need to use `samtools` to do this. For example:   
+The last step in preparing the reads is to index the bam files. This needs to be done to enable fast access to reads overlapping a given position of the genome. Without the index, if you wanted to access reads at the beginning of chromosome 20, you'd need to read through chromosomes 1-19 until you got there. With many samples or deep coverage, this would be a big problem. The bam index is a map to the bam file that lets you skip around quickly. In this case, `picard` already generated the index during duplicate marking, but if you used a different approach, you'd need to use `samtools` to do this. For example:   
 
 ```bash
 samtools index ../align_stepwise/*mkdup.bam
 ```
+
+Finally, at this point, may have noticed that we have generated six copies of our data. Two copies of the fastq files, and four copies of the alignment files. This is a large and space-wasting mess. If we were working with many samples of high coverage human genomes, we would want to go and delete the intermediate files. Another approach, detailed in Part 3, would pipe many of these steps together and avoid creating some of the intermediate files. 
 
 scripts:
 - [scripts/Part1g_indexbams.sh](scripts/Part1g_indexbams.sh)
@@ -268,7 +270,7 @@ ___
 
 _perhaps this should be broken out into a separate sub-section_
 
-Now that we have processed alignment files we can learn about sam files and do some exploring. The ability to inspect and summarize various aspects of an alignment file can be especially helpful when something has gone wrong with sequencing or bioinformatic analysis. 
+Now that we have processed alignment files we can learn about SAM files and do some exploring. The ability to inspect and summarize various aspects of an alignment file can be especially helpful when something has gone wrong with sequencing or bioinformatic analysis. 
 
 There are no scripts for the section below. Run the code interactively. 
 
