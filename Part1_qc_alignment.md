@@ -63,9 +63,9 @@ To download the data, we'll use `samtools`. The data have already been aligned t
 We'll accomplish this with a unix pipeline, where the symbol "|" allows us to take the output of the command to the left, and redirect it as input to the command to the right. 
 The commands are as follows:
 
-`samtools view -bh <file> <region>` outputs the given region from the file, includes the header, outputs as bam. 
-`samtools sort -n` sorts the reads by name, so that read pairs will be found together in the file. 
-`bedtools bamtofastq` converts bam format back to fastq (so we can practice turning it back into a bam later!)
+`samtools view -bh <file> <region>` outputs the given region from the file, includes the header, outputs as bam.  
+`samtools sort -n -` sorts the reads by name, so that read pairs will be found together in the file. the `-` indicates the data should be read from the pipe.    
+`bedtools bamtofastq` converts bam format back to fastq. In this case `/dev/stdin/` indicates the data should be read from the pipe. 
 
 Below is an example of this code put together to download data for the son:
 
