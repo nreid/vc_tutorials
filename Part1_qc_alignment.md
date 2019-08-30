@@ -29,6 +29,9 @@ Each step has an associated bash script tailored to the UConn CBC Xanadu cluster
 
 
 ## Set up a working directory ##
+
+We will begin the tutorial by setting up a working directory to organize the files we'll generate. From your home directory, enter the code below on the command line. 
+
 ```bash
 mkdir -p vc_workshop/rawdata vc_workshop/fastqc vc_workshop/align_stepwise vc_workshop/scripts
 cd vc_workshop
@@ -36,13 +39,22 @@ cd vc_workshop
 
 ## Prepare Reference genome
 
+Most software packages that align short-read sequencing data or otherwise manipulate a reference genome require that genome to be indexed in some way. We will generate indexes using both `bwa` and `samtools`. For the workshop, a pre-indexed human genome is provided, but the code below shows how it's done:
+
+```bash
+# set a variable 'GEN' that gives the location of the reference genome:
+GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+bwa index $GEN
+samtools faidx $GEN
+```
+
 ## Download data ##
 
-NIST GIAB data, chinese trio. 
-son: 45x coverage bam files for chr20:10000000-15000000
-mother & father: 100x coverage bam files for chr20:10000000-15000000
+For all following steps of the workshop, we'll use data from the [Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) project, hosted by the [National Institute of Standards and Technology](https://www.nist.gov). The data were collected as part of an effort to create reference standards to compare genomic workflows. Large quantities of sequencing data have been generated on multiple platforms (Illumina, PacBio, etc) for seven individuals. 
 
-Data from:
+We are going to use data from a trio (mother, father, and son) of Chinese ancestry. The data consist of 250bp paired end reads sequenced on an Illumina HiSeq 2500. To ensure the analyses run quickly, we'll only use data from 5 megabases of chromosome 20 (10mb - 15mb). The expected sequencing coverage is 100x for the mother and father, and 45x for the son. 
+
+More information about the data can be found at the links below:
 https://www.nist.gov/programs-projects/genome-bottle
 ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
 
