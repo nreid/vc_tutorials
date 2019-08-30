@@ -66,7 +66,7 @@ The commands to be chained together are as follows:
 
 `samtools view -bh <file> <region>` outputs the given `region` from the `file`, includes the header, and outputs as a compressed BAM file.  
 `samtools sort -n -` sorts the reads by name so that read pairs will be found together in the file. The `-` indicates the data should be read from the pipe.    
-`bedtools bamtofastq` converts bam format back to fastq. In this case `/dev/stdin/` indicates the data should be read from the pipe. 
+`bedtools bamtofastq -i /dev/stdin/ -fq <read 1> -fq2 <read 2>` converts bam format back to fastq. In this case `/dev/stdin/` indicates the data should be read from the pipe. 
 
 Below is an example of this code put together to download data for the son:
 
@@ -84,7 +84,7 @@ scripts:
 FastQC is used to evaluate the quality of the raw sequencing data. 
 
 scripts: 
-- scripts/Part1b_fastqc.sh
+- [scripts/Part1b_fastqc.sh](scripts/Part1b_fastqc.sh)
 
 ## Quality trim ##
 
@@ -95,29 +95,29 @@ not generally necessary for variant calling, but sickle and trimmomatic can be u
 bwa mem, samtools
 
 scripts:	
-- scripts/Part1c_align.sh    
-- scripts/Part1d_compress.sh
+- [scripts/Part1c_align.sh](scripts/Part1c_align.sh)    
+- [scripts/Part1d_compress.sh](scripts/Part1d_compress.sh)
 
 ## Sort reads by genome position ##
 
 samtools
 
 scripts:	
-- scripts/Part1e_sort.sh
+- [scripts/Part1e_sort.sh](scripts/Part1e_sort.sh)
 
 ## Mark duplicates ##
 
 picard
 
 scripts:
-- scripts/Part1f_markduplicates.sh
+- [scripts/Part1f_markduplicates.sh](scripts/Part1f_markduplicates.sh)
 
 ## Index alignment files ##
 
 samtools
 
 scripts:
-- scripts/Part1g_indexbams.sh
+- [scripts/Part1g_indexbams.sh](scripts/Part1g_indexbams.sh)
 
 ___
 
