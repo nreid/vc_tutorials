@@ -9,8 +9,9 @@ Steps here will use the following software packages:
 - [samtools](http://www.htslib.org/doc/samtools.html)
 - [picard tools](https://broadinstitute.github.io/picard/)
 - [bwa](http://bio-bwa.sourceforge.net/)
+- [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 - along with a variety of utilities available on unix-like operating systems. 
-
+`
 Each step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) scheduler. The code can easily be modified to run interactively, or in other contexts. 
 
 
@@ -60,7 +61,7 @@ ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
 
 To download the data, we'll use `samtools`. The data have already been aligned to a reference genome, and the resulting BAM file has been compressed and indexed. This will allow us to get reads only from the region we're interested in. Conveniently, `samtools` can read BAM files from an ftp server, provided the index is present, so we won't need to download the whole dataset. We'll then convert the data back to the unaligned fastq format using `bedtools` so we can continue with the tutorial.
 
-We'll accomplish this with a unix pipeline, where the symbol "|" indicates that the output of the command to the left should be redirected as input to the command to the right. This will be discussed in more detail in Part 3 of the tutorial. 
+We'll accomplish this with a unix pipeline, where the symbol `|` indicates that the output of the command to the left should be redirected as input to the command to the right. This will be discussed in more detail in Part 3 of the tutorial. 
 
 The commands to be chained together are as follows:
 
@@ -71,17 +72,57 @@ The commands to be chained together are as follows:
 Below is an example of this code put together to download data for the son:
 
 ```bash
+# set a variable 'SON' that gives the location of the file containing the data from the son:
 SON='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG005_NA24631_son/HG005_NA24631_son_HiSeq_300x/basespace_45x_bams_vcfs_PerFlowCell/150424_HG005_Homogeneity_02_FCA-22108087/150424_HG005_Homogeneity_FCA_Combined-23168145/150424-HG005-Homogeneity-FCA-Combined_S1.bam'
-
+# download the data, sort it, reformat to fastq
 samtools view -uh $SON chr20:10000000-15000000 | samtools sort -n - | bedtools bamtofastq -i /dev/stdin/ -fq son.1.fq -fq2 son.2.fq
 ```
 
 scripts:
 - [scripts/Part1a_datadownload.sh](scripts/Part1a_datadownload.sh)
 
+### Inspecting fastq files ###
+
+This set of commands will allow you to open the FASTQ file and inspect the data.  Each read is represented by 4 lines.  Details on the FASTQ file format can be found <a href="https://bio Informatics.uconn.edu/resources-and-events/tutorials/file-formats-tutorial/">here</a>.   
+ 
+
+Change the directory to the `rawdata/` folder using:   
+```bash
+cd rawdata/  
+```  
+
+To inspect the first few lines in the FASTQ file can use the `head` command, as follows which will print the first few lines into the terminal window.     
+
+```bash
+head son.1.fq
+```
+
+>@61CC3AAXX100125:7:118:2538:5577/1
+>GACACCTTTAATGTCTGAAAAGAGACATTCACCATCTATTCTCTTGGAGGGCTACCACCTAAGAGCCTTCATCCCC
+>+
+>?>CADFEEEBEDIEHHIDGGGEEEEHFFGIGIIFFIIEFHIIIIHIIFFIIIDEIIGIIIEHFFFIIEHIFA@?==
+>@61CC3AAXX100125:7:1:17320:13701/1
+>CTCAGAAGACCCTGAGAACATGTGCCCAAGGTGGTCACAGTGCATCTTAGTTTTGTACATTTTAGGGAGATATGAG
+>+
+>?BCAAADBBGGHGIDDDGHFEIFIIIIFGEIFIIFIGIGEFIIGGIIHEFFHHHIHEIFGHHIEFIIEECE?>@89
+>@61CC3AAXX100125:7:93:5100:14497/1
+>CTCAACTGGCTGAAAGTATTATCAATAGAAAGGAATGTTCAGGTTCTTCAATTTTAGAGTGCCCTGGCCTAGAAGA
+ 
+The command below will let you inspect more part of the file.
+```bash
+less son.1.fq
+```   
+
+ 
+The command below will help you count number of reads in the file
+``` 
+-bash-4.2$ grep -c "^@61CC" NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq
+```   
+
+
 ## Assess read quality ##
 
-FastQC is used to evaluate the quality of the raw sequencing data. 
+In order to evaluate the general quality of reads in the file we will be using `FASTQC` package.  The command can take multiple files as input and outputs a quality report in html format. Once the file is generated you have to transfer the file to your local computer to open it and examine the results carefully. To copy the file from the Xanadu cluster please use the `transfer.cam.uchc.edu` node.  
 
 scripts: 
 - [scripts/Part1b_fastqc.sh](scripts/Part1b_fastqc.sh)
@@ -141,7 +182,7 @@ ___
 We can get a lot of basic stats on the SAM file using "samtools stats":
 
 ```bash
-# set reference genome location
+# set a variable 'GEN' that gives the location of the reference genome:
 GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
 # run samtools stats
 samtools stats -r $GEN son.mkdup.bam >son.samstat.txt
@@ -179,7 +220,7 @@ ___
 Samtools has implemented a simple alignment viewer in 'tview'. IGV is better, but tview is right in the terminal. Let's look at the same region as above. 
 
 ```bash
-# set reference genome location
+# set a variable 'GEN' that gives the location of the reference genome:
 GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
 # run samtools tview
 samtools tview --reference $GEN dad.mkdup.bam
