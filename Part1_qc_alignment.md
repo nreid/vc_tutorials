@@ -81,7 +81,7 @@ SON='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG005_NA24631_so
 # download the data, sort it, reformat to fastq
 samtools view -uh $SON chr20:10000000-15000000 | samtools sort -n - | bedtools bamtofastq -i /dev/stdin/ -fq son.1.fq -fq2 son.2.fq
 ```
----
+___
 scripts:
 - [scripts/Part1a_datadownload.sh](scripts/Part1a_datadownload.sh)
 
@@ -145,7 +145,7 @@ scp user_name@transfer.cam.uchc.edu:/FULL_PATH_to_FILES/*.html .
 Again, `*html` will indicate that `scp` should copy all files ending in "html"
 
 INSERT FIGURES HERE? OR LEAVE THEM TO WORKSHOP? 
----
+___
 scripts: 
 - [scripts/Part1b_fastqc.sh](scripts/Part1b_fastqc.sh)
 
@@ -171,7 +171,7 @@ sickle pe -t sanger \
 This would discard any read trimmed shorter than 100bp, and if its pair was longer than 100bp, it would be placed in the file given by `-s`, which would be read as `../rawdata/son.trim.0.fq`. 
 
 We can run our script, which also runs `FastQC` on the trimmed data, but as we will see, it will have little impact for this particular dataset. The next steps will use the untrimmed data. 
----
+___
 scripts:	
 - [scripts/Part1b2_sickle_fastqc.sh](scripts/Part1b2_sickle_fastqc.sh)    
 
@@ -199,7 +199,7 @@ samtools view -bhS ../rawdata/son.sam >../align_stepwise/son.bam
 ```
 
 Because we're doing all steps individually, you may note that at this point (if we've done the quality trimming) we now have 4 copies of our sequence data. 
----
+___
 scripts:	
 - [scripts/Part1c_align.sh](scripts/Part1c_align.sh)    
 - [scripts/Part1d_compress.sh](scripts/Part1d_compress.sh)
