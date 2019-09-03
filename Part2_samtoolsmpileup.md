@@ -1,4 +1,4 @@
-# Variant discovery using samtools. 
+# Variant discovery using bcftools. 
 
 ## Introduction
 
@@ -74,6 +74,30 @@ scripts:
 
 ## The VCF format
 
+Now we have a set of VCF formatted variants. Before going further, we should learn a little about what is in this file and the VCF format. We can use `bcftools` for this. There are no scripts for this section, so execute the code yourself on the command line. 
+
+The first 3000 or so lines of the file are the header. 
+
+`bcftools view -h chinesetrio.vcf.gz | wc -l`
+
+The first few header lines give you basic information about the format and origin of the file:
+
+```bash
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##bcftoolsVersion=1.6+htslib-1.6
+##bcftoolsCommand=mpileup -f /UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta -b list.bam -q 20 -Q 30 -r chr20:10000000-15000000
+##reference=file:///UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+```
+The next big chunk lists the sequences in the reference genome and their length. In this there are 3366 sequences, but the vast majority of the sequence is in the first 24: the 22 autosomes + X + Y. 
+
+Finally the last 25 or so lines of the header give the definitions for abbreviations used in the variant records to follow. 
+
+After the header come individual variant records. Each record is on a single line:
+
+```
+chr20	10000775	.	A	G	222	.	DP=269;VDB=0.0730423;SGB=51.8218;RPB=0.806901;MQB=1;MQSB=1;BQB=0.929014;MQ0F=0;ICB=0.3;HOB=0.125;AC=1;AN=4;DP4=105,74,27,22;MQ=60	GT:PL	0/0:0,255,255	0/1:255,0,255	./.:0,0,0
+```
 
 ## Filter variants
 
