@@ -16,9 +16,10 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
   
 1.    [ Update your working directory ](#Update-your-working-directory)  
 2.    [ Generate a pileup file ](#Generate-a-pileup-file)  
-3.    [ Call variants with bcftools ](#Call-variants-with-bcftools)  
-4.    [ Filter variants with bcftools ](#Filter-variants-with-bcftools)  
-5.    [ Compress and index the VCF file ](#Compress-and-index-the-VCF-file)  
+3.    [ Call variants ](#Call-variants)  
+4.    [ The VCF format ](#The-VCF-format)  
+5.    [ Filter variants ](#Filter-variants)  
+6.    [ Compress and index the VCF file ](#Compress-and-index-the-VCF-file)  
 
 
 ## Update your working directory
@@ -56,7 +57,7 @@ ___
 scripts:
 - [scripts/Part2a_mpileup.sh](scripts/Part2a_mpileup.sh)
 
-## Call variants with bcftools
+## Call variants
 
 The second step is to evaluate the evidence (summarized in the pileup file) that the sequence variation we observe is true biological variation, and not errors introduced during library preparation and sequencing. Here we use `bcftools call`. 
 
@@ -74,7 +75,7 @@ scripts:
 ## The VCF format
 
 
-## Filter variants with bcftools
+## Filter variants
 
 
 ## Compress and index the VCF file
