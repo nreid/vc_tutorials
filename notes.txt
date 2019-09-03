@@ -18,3 +18,5 @@ in actual text of tutorials should some things be shown? Or only displayed in te
 check to ensure that slurm resource requests == process needs in each script. 
 
 where will reference genome/indexes reside?
+
+add section in part 1 on IGV. 
