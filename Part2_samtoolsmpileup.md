@@ -2,13 +2,13 @@
 
 ## Introduction
 
-This section of the tutorial introduced variant calling using the methods implemented in `bcftools`. 
+This section of the tutorial introduces variant calling using the methods implemented in `bcftools`. 
 
-We will assume that you have completed Part 1 and have available QC'ed and processed sequence alignment files in bam format and the directory structure first created there. 
+We will assume that you have completed Part 1 and have QC'ed and processed sequence alignment files in bam format in the directory structure first created there. 
 
 Steps here will use the following software packages:
 
-- [bcftools](http://www.htslib.org/doc/bcftools.html)
+- [ bcftools ](http://www.htslib.org/doc/bcftools.html)
 - [ tabix ](http://www.htslib.org/doc/tabix.html)
 
 Each major step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
@@ -19,8 +19,6 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 2.    [ Generate a pileup file ](#Generate-a-pileup-file)  
 3.    [ Call variants ](#Call-variants)  
 4.    [ The VCF format ](#The-VCF-format)  
-5.    [ Filter variants ](#Filter-variants)  
-6.    [ Compress and index the VCF file ](#Compress-and-index-the-VCF-file)  
 
 
 ## Update your working directory
@@ -68,23 +66,27 @@ bcftools call -m -v -Oz -o chinesetrio.vcf.gz chinesetrio.pileup
 
 We use the `-o` flag to indicate the output file name. The flag `-m` specifies one of two possible variant calling routines, `-v` says that only variable sites should be output, and `-Oz` indicates the output should be compressed in a version of the gzip compression format. 
 
+In this case, we've told bcftools to output a compressed file. Other variant callers may not have that option. In those cases, it's a good idea to use compression to save space. `bgzip` is a commonly used utility for compressing tabular data in genomics. It has the advantage of producing files that can be indexed, generally using the companion program `tabix`. bcftools used the same algorithm as bgzip to compress our file, so we'll use `tabix` to index it so that we can access quickly access variants from any part of the genome. 
+
+This indexing is unnecessary for our 5mb chunk of the human genome, but it is critical for VCF files containing millions of variants. 
+
 ___
 scripts:
 - [scripts/Part2b_variantcall.sh](scripts/Part2b_variantcall.sh)
-
+- [scripts/Part2c_tabix.sh](scripts/Part2c_tabix.sh)
 
 ## The VCF format
 
-Now we have a set of VCF formatted variants. Before going further, we should learn a little about what's' in this file. There are no scripts for this section, so execute the code yourself on the command line. 
+Now we have a set of VCF formatted variants. Before going further, we should learn a little about what's in this file. There are no scripts for this section, so execute the code yourself on the command line. 
 
 We generated a block-gzip compressed VCF file in the last step. We will inspect this file using `bcftools view` So make sure `bcftools` is loaded by entering `module load bcftools` (Alternatively `zcat` will print it to the screen, and we can read it using `less`). 
 
-The first 3000 or so lines of the file are the header, which contains a lot of metadata about the file. Each header line starts with `##`. To view the header say:
+The first 3000 or so lines of the file are the header, which contains a lot of metadata on the file. Each header line starts with `##`. To view the header say:
 
 ```bash
 bcftools view -h chinesetrio.vcf.gz
 ```
-The `-h` flag will print only the header. 
+The `-h` flag prints only the header. 
 
 The first few header lines give you basic information about the format and origin of the file:
 
@@ -113,11 +115,19 @@ The final header line gives a set of field names:
 
 After the header come individual variant records. Each record, taking up one line, represents a possible variant.
 
+To view the first record, try:
+
+```bash
+bcftools view -H chinesetrio.vcf.gz | head -n 1
+```
+
+It should result in a line like this:
+
 ```
 chr20	10000775	.	A	G	222	.	DP=269;VDB=0.0730423;SGB=51.8218;RPB=0.806901;MQB=1;MQSB=1;BQB=0.929014;MQ0F=0;ICB=0.3;HOB=0.125;AC=1;AN=4;DP4=105,74,27,22;MQ=60	GT:PL	0/0:0,255,255	0/1:255,0,255	./.:0,0,0
 ```
 
-The first two columns are the reference sequence and position of the variant. Then comes the "ID" field, now empty (all ".") which you can population by comparison to a database or other VCF file (see Part 5). Next are the reference and alternate alleles. If more than one alternate allele is observed, there will be a comma-separated list of alleles. Field 6 contains the [phred-scaled](https://en.wikipedia.org/wiki/Phred_quality_score) variant quality score (i.e. 10^( QUAL / -10) = probability of false call). Then comes the filter field, now empty, which can be populated by PASS, or a list of filtering criteria the variant has failed. Next comes the INFO field, which generally contains many summaries of the read data supporting the variant, identified by abbreviations defined in the header. After this is the FORMAT field, which gives the formatting of the individual genotypes in the columns that follow. In this case `GT:PL`, means that the genotype is given first, followed by a colon, and then phred-scaled genotype likelihoods. The next three columns are the genotypes for son, mom, and dad, respectively. As an example, for the variant above, the mom genotype is given by:  
+The first two columns are the reference sequence and position of the variant. Then comes the "ID" field, now empty (all ".") which you can population by comparison to a database or other VCF file (see Part 5). Next are the reference and alternate alleles. If more than one alternate allele is observed, there will be a comma-separated list of alleles. Field 6 contains the [phred-scaled](https://en.wikipedia.org/wiki/Phred_quality_score) variant quality score (i.e. 10^( QUAL / -10) = probability of false call). Then comes the filter field, now empty, which can be populated by PASS, or a list of filtering criteria the variant has failed. Next comes the INFO field, which generally contains many summaries of the read data supporting the variant, identified by abbreviations defined in the header. After this is the FORMAT field, which gives the formatting of the individual genotypes in the columns that follow. In this case `GT:PL`, means that the genotype is given first, followed by a colon, and then phred-scaled genotype likelihoods. The next three columns are the genotypes for son, mom, and dad, respectively. As an example, for the variant above, the mother's genotype is given by:  
 
 `0/1:255,0,255`  
 
@@ -125,9 +135,4 @@ The first two columns are the reference sequence and position of the variant. Th
 
 For lots more information on VCF, [here's a link](https://samtools.github.io/hts-specs/VCFv4.2.pdf) to the format specification. 
 
-
-## Filter variants
-
-
-## Compress and index the VCF file
 

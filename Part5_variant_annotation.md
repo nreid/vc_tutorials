@@ -6,6 +6,7 @@
 vcflib, vt, vcfeval (https://www.realtimegenomics.com/products/rtg-tools)
 vgraph (https://github.com/bioinformed/vgraph)
 bcftools normalize
+https://github.com/Illumina/hap.py
 
 ?? how do we discuss annotation ?? 
 ?? how do we compare variant call sets ??
