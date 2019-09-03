@@ -1,14 +1,5 @@
 Variant calling tutorial notes:
 
-need to figure out which data to use. 
-
-	coverage should be higher. 
-
-	should use same data across all tutorials. 
-
-	should use multiple samples. 
-
-should cover variant filtering steps better. 
 
 BQSR?
 VQSR?
@@ -24,3 +15,6 @@ in actual text of tutorials should some things be shown? Or only displayed in te
 	show lines from files, e.g. samfile? fastq?
 
 
+check to ensure that slurm resource requests == process needs in each script. 
+
+where will reference genome/indexes reside?

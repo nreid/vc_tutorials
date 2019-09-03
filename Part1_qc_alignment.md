@@ -95,7 +95,7 @@ Change the directory to the `rawdata/` folder using:
 cd rawdata/  
 ```  
 
-To inspect the first few lines in the FASTQ file can use the `head` command, as follows which will print the first few lines into the terminal window.     
+To inspect the first few lines in the FASTQ file we can use the `head` command, as follows which will print the first few lines into the terminal window.     
 
 ```bash
 head son.1.fq
@@ -110,7 +110,7 @@ DDDDDIIIIIHIHIIIEHHIIIIIIIGHHIIIIIIIIIGGHHIIHHIIIIIIHIGIHHHIHIFIHIHHHHIGHGHIIHHI
 
 The first line is the sequence name. The second line is the DNA sequence. The third line, which always begins with a "+" can contain other optional information, but usually does not. The fourth line encodes the base quality scores in ASCII characters. 
 
-The command below will let you inspect more part of the file.
+The command below will let you inspect more of the file.
 ```bash
 less son.1.fq
 ```   
@@ -142,7 +142,7 @@ You can use an ftp program, or the unix utility `scp` as:
 scp user_name@transfer.cam.uchc.edu:/FULL_PATH_to_FILES/*.html . 
 ```
 
-Again, `*html` will indicate that `scp` should copy all files ending in "html"
+Again, `*html` will indicate that `scp` should copy all files ending in ".html"
 
 INSERT FIGURES HERE? OR LEAVE THEM TO WORKSHOP? 
 ___
@@ -188,7 +188,7 @@ bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN ../rawdata/son.1.fq ../rawdata/son.2.
 ```
 Here `-t 4` indicates that the program should use four processors, and we feed `bwa mem` both the location of the reference genome and both files of paired end reads.   
 
-The `-R` flag specifies the read group information. Adding read group information is critical, though it does not have to be done at this stage (picard has a tool for adding read groups to alignment files). The read group can specify the source of the reads, including the library, sequencing machine, run, lane (for more see the SAM specification) but critically, for multisample variant calling it should include the sample ID.  
+The `-R` flag specifies the read group information. Adding read group information is critical, though it does not have to be done at this stage (picard has a tool for adding read groups to alignment files). The read group can specify the source of the reads, including the library, sequencing machine, run, lane (for more see the SAM specification) but critically, for multisample variant calling it should include the sample ID. In this case we've specified the read group ID ("ID:") and the sample ID ("SM:") as the same thing. 
 
 When simultaneously calling variants on many samples, variant callers do not track reads by their alignment file of origin, but using read group information. If this information is absent, all reads will be treated as if they came from a single sample, and a single genotype call will result. Maintaining detailed read group information can also be helpful if some sequencing runs turn out to be problematic. In that case, even if all reads are pooled in a single bam file, there are tools you can use to filter out undesirable read groups on the fly.  
 
@@ -224,8 +224,8 @@ scripts:
 ## Mark duplicates ##
 
 Duplicate sequences are those which originate from the same molecule after extracting and shearing genomic DNA. There are two types: _optical_ and _polymerase chain reaction (PCR)_ duplicates. Optical duplicates are an error introduced by the sequencer. PCR duplicates are introduced by library prepartion protocols that use PCR. Duplicates cause 2 types of artifacts that mislead variant callers. 
-- __First__, errors introduced by the polymerase can be propagated to multiple copies of a given fragment. Because these errors are actually part of the DNA sequence, they are likely to have high base qualities. If many sequences from the fragment containing the error are present, the variant caller can be deceived into identifying it as biological variation. 
-- __Second__, when variant callers call genotypes, they assume that heterozygous sites will have equal representation of both alleles in the sequence pool (as they should for germ-line mutations). Dramatically unbalanced coverage of an allele can be a signal that variation is spurious. Because of its exponential reproduction of fragments, PCR can randomly alter allele balance, causing a variant caller to incorrectly call genotypes as homozygotes, or a whole site as invariant. 
+- __First__, errors introduced by the polymerase can be propagated to multiple copies of a given fragment. Because these errors are actually part of the DNA sequence, they are likely to have high base qualities. If many sequences from the fragment containing the error are present, the variant caller can be deceived into identifying it as true biological variation. 
+- __Second__, when variant callers call genotypes, they assume that heterozygous sites will have equal representation of both alleles in the sequence pool (as they should for germ-line mutations). Dramatically unbalanced coverage of an allele can be a signal that variation is spurious. Because of its exponential reproduction of fragments, PCR can randomly alter allele balance, or amplify small deviations in the initial sample, causing a variant caller to incorrectly call genotypes as homozygotes, or a truly variable site as invariant. 
 
 For these reasons we need to exclude duplicate sequences from variant calling. They can be identified most easily from paired-end data as those sequences for which both reads have identical start sites. This may eliminate some sequences which are in fact derived from unique fragments in the original library, but if fragmentation is actually random, identical fragments should be rare. Once identified, duplicate sequences can be marked and ignored during variant calling (or other types of analyses) downstream. 
 
@@ -259,7 +259,7 @@ The last step in preparing the reads is to index the bam files. This needs to be
 samtools index ../align_stepwise/*mkdup.bam
 ```
 
-Finally, at this point, may have noticed that we have accumulated six copies of our data. Two copies of the fastq files, and four copies of the alignment files. This is a large and space-wasting mess. If we were working with many samples of high coverage human genomes, we would want to go and delete the intermediate alignment files and the trimmed fastqs, keeping only the original fastqs and the analysis-ready bams. Another approach, detailed in Part 3, would pipe many of these steps together and avoid creating some of the intermediate files to begin with. 
+Now we have completed the initial QC, alignment and processing steps. At this point, you may have noticed that we have accumulated six copies of our data. Two copies of the fastq files, and four copies of the alignment files. This is a large and space-wasting mess. If we were working with many samples of high coverage human genomes, we would want to go and delete the intermediate alignment files and the trimmed fastqs, keeping only the original fastqs and the analysis-ready bams. Another approach, detailed in Part 3, would pipe many of these steps together and avoid creating some of the intermediate files to begin with. 
 
 ___
 
