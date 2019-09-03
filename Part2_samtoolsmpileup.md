@@ -75,11 +75,11 @@ scripts:
 
 ## The VCF format
 
-Now we have a set of VCF formatted variants. Before going further, we should learn a little about what is in this file and the VCF format. There are no scripts for this section, so execute the code yourself on the command line. 
+Now we have a set of VCF formatted variants. Before going further, we should learn a little about what's' in this file. There are no scripts for this section, so execute the code yourself on the command line. 
 
 We generated a block-gzip compressed VCF file in the last step. We will inspect this file using `bcftools view` So make sure `bcftools` is loaded by entering `module load bcftools` (Alternatively `zcat` will print it to the screen, and we can read it using `less`). 
 
-The first 3000 or so lines of the file are the header. To view the header say:
+The first 3000 or so lines of the file are the header, which contains a lot of metadata about the file. Each header line starts with `##`. To view the header say:
 
 ```bash
 bcftools view -h chinesetrio.vcf.gz
@@ -105,13 +105,25 @@ Finally the last 25 or so lines of the header give the definitions for abbreviat
 
 The "DP" tag in the INFO field (see below) gives the raw read depth (across samples) for the variant. 
 
-After the header come individual variant records. Each record is on a single line:
+The final header line gives a set of field names:
+
+```bash
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	dad	mom	son
+```
+
+After the header come individual variant records. Each record, taking up one line, represents a possible variant.
 
 ```
 chr20	10000775	.	A	G	222	.	DP=269;VDB=0.0730423;SGB=51.8218;RPB=0.806901;MQB=1;MQSB=1;BQB=0.929014;MQ0F=0;ICB=0.3;HOB=0.125;AC=1;AN=4;DP4=105,74,27,22;MQ=60	GT:PL	0/0:0,255,255	0/1:255,0,255	./.:0,0,0
 ```
 
-For more information on VCF, [here's a link](https://samtools.github.io/hts-specs/VCFv4.2.pdf) to the format specification. 
+The first two columns are the reference sequence and position of the variant. Then comes the "ID" field, now empty (all ".") which you can population by comparison to a database or other VCF file (see Part 5). Next are the reference and alternate alleles. If more than one alternate allele is observed, there will be a comma-separated list of alleles. Field 6 contains the [phred-scaled](https://en.wikipedia.org/wiki/Phred_quality_score) variant quality score (i.e. 10^( QUAL / -10) = probability of false call). Then comes the filter field, now empty, which can be populated by PASS, or a list of filtering criteria the variant has failed. Next comes the INFO field, which generally contains many summaries of the read data supporting the variant, identified by abbreviations defined in the header. After this is the FORMAT field, which gives the formatting of the individual genotypes in the columns that follow. In this case `GT:PL`, means that the genotype is given first, followed by a colon, and then phred-scaled genotype likelihoods. The next three columns are the genotypes for son, mom, and dad, respectively. As an example, for the variant above, the mom genotype is given by:  
+
+`0/1:255,0,255`  
+
+"0/1" means her genotype is called as heterozygous (0 is the reference allele, 1 is the alternate). The numbers 255,0,255 are the genotype likelihoods for genotypes 0/0, 0/1, 1/1 respectively. These are scaled by the likelihood of the best genotype. Because that makes the likelihood of that genotype 1, and phred is log-scaled, the best likelihood is always 0. This also means you can think of the other genotype scores as ratios of that genotype's likelihood to the best likelihood. Thus for a likelihood of 255, the probability of the observed data being produced by the heterozygous genotype is 3x10^25 times the probability of it having been produced by either homozygous genotype. 
+
+For lots more information on VCF, [here's a link](https://samtools.github.io/hts-specs/VCFv4.2.pdf) to the format specification. 
 
 
 ## Filter variants
