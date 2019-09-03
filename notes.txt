@@ -14,8 +14,9 @@ in actual text of tutorials should some things be shown? Or only displayed in te
 	show help output from running, e.g. `freebayes` with no input?
 	show lines from files, e.g. samfile? fastq?
 
-
-check to ensure that slurm resource requests == process needs in each script. 
+SCRIPTS:
+	check to ensure that slurm resource requests == process needs in each script. 
+	check to ensure --job-name= is correct
 
 where will reference genome/indexes reside?
 
