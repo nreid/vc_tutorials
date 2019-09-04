@@ -51,3 +51,7 @@ __Required software tools:__
 - [ sickle ](https://github.com/najoshi/sickle)
 - [ bcftools ](http://www.htslib.org/doc/bcftools.html)
 - [ tabix ](http://www.htslib.org/doc/tabix.html)
+- [ samblaster ](https://github.com/GregoryFaust/samblaster)
+- [ freebayes ](https://github.com/ekg/freebayes)
+- [ bedtools ](https://bedtools.readthedocs.io/en/latest/)
+- [ bamtools ](https://github.com/pezmaster31/bamtools)
