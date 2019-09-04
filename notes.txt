@@ -23,3 +23,5 @@ where will reference genome/indexes reside?
 add section in part 1 on IGV. 
 
 Add note on license for distribution
+
+edit to keep "introduction" very short. add a "motivation" section after the table of contents to cover more background. 

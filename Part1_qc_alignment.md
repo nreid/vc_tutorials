@@ -18,6 +18,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 ## Contents
   
+1.    [ Motivation ](#Motivation)
 1.    [ Set up a working directory ](#Set-up-a-working-directory)  
 2.    [ Prepare reference genome ](#Prepare-Reference-genome)
 3.    [ Download data ](#Download-data)
@@ -29,6 +30,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 9.    [ Index alignment files ](#Index-alignment-files)
 10.   [ Exploring SAM files ](#Exploring-SAM-files)
 
+## Motivation
 
 ## Set up a working directory ##
 
