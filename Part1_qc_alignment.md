@@ -7,11 +7,12 @@ This section of the tutorial deals with quality control, alignment to a referenc
 Steps here will use the following software packages:
 
 - [ samtools ](http://www.htslib.org/doc/samtools.html)
-- [ picard tools ](https://broadinstitute.github.io/picard/)
+- [ picard ](https://broadinstitute.github.io/picard/)
 - [ bwa ](http://bio-bwa.sourceforge.net/)
 - [ FastQC ](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 - [ sickle ](https://github.com/najoshi/sickle)
 - [ bedtools ](https://bedtools.readthedocs.io/en/latest/)
+- [ igv ](https://software.broadinstitute.org/software/igv/)
 - along with a variety of utilities available on unix-like operating systems.    
 
 Each major step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 

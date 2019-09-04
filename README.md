@@ -18,12 +18,12 @@ __Proposed structure:__
 
 2. [ Variant Calling: bcftools ](/Part2_bcftools.md)
 
-3. Part 1, but a piped example
+3. [ Part 1, but a piped example ](Part3_pipedalignment.md)
 
 4. 
-	a. Variant calling: Freebayes, post-filtering
+	a. [ Variant calling: Freebayes ](Part4a_freebayes.md)
 
-	b. Variant calling: GATK, joint calling using gvcf. post-filtering
+	b. Variant calling: GATK, joint calling using gvcf
 
 	c. Beyond variant calling: genotype likelihoods. (depending on audience?)
 
@@ -50,11 +50,12 @@ _quality control_
 _alignment_  
 - [ bwa ](http://bio-bwa.sourceforge.net/)
 
-_sequence alignment processing and manipulation_  
+_sequence alignment manipulation and visualization  
 - [ samtools ](http://www.htslib.org/doc/samtools.html)
-- [ picard tools ](https://broadinstitute.github.io/picard/)
+- [ picard ](https://broadinstitute.github.io/picard/)
 - [ samblaster ](https://github.com/GregoryFaust/samblaster)
 - [ bamtools ](https://github.com/pezmaster31/bamtools)  
+- [ igv ](https://software.broadinstitute.org/software/igv/)
 
 _variant calling_  
 - [ bcftools ](http://www.htslib.org/doc/bcftools.html)

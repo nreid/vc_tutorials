@@ -24,5 +24,8 @@ Add note on license for distribution
 
 edit to keep "introduction" very short. add a "motivation" section after the table of contents to cover more background. 
 	- done, but motivation sections are not all written. 
+	- motivation sections could include a flow chart? 
 
 consider making parts 1 and 3 completely independent. 
+
+add flow chart(s) to readme.md that can be revisited in subsequent sections
