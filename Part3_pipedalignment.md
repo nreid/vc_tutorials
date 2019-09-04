@@ -55,10 +55,7 @@ We can take each step from [Part 1](/Part1_qc_alignment.md) and slightly modify 
 GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
 
 # execute the pipe:
-bwa mem \
--t 4 \
--R '@RG\tID:son\tSM:son' \
-$GEN ../rawdata/son.1.fq ../rawdata/son.2.fq | \
+bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN ../rawdata/son.1.fq ../rawdata/son.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
 samtools sort -T /scratch/son - >son.bam
