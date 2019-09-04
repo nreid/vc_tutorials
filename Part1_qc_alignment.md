@@ -32,6 +32,8 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 ## Motivation
 
+ADD TEXT
+
 ## Set up a working directory ##
 
 We will begin the tutorial by setting up a working directory to organize the files we'll generate. From your home directory, enter the code below on the command line. 

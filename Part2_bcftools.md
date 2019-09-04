@@ -23,6 +23,8 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 ## Motivation
 
+ADD TEXT
+
 ## Update your working directory
 
 First we'll make a new directory to hold variant calls. 
