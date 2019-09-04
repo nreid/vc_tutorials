@@ -10,12 +10,15 @@ Steps here will use the following software packages:
 - [ bedtools ](https://bedtools.readthedocs.io/en/latest/)
 - [ bamtools ](https://github.com/pezmaster31/bamtools)
 
-
 ## Contents
   
+1.    [ Motivation ](#Motivation)
 1.    [ Update your working directory ](#Update-your-working-directory)  
 2.    [ Decide where to call variants ]()
 3.    [ Call variants ]()
+
+
+## Motivation
 
 
 ## Update your working directory

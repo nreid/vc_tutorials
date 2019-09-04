@@ -2,6 +2,27 @@
 
 ## Introduction
 
+This section of the tutorial revisits the alignment and post-processing steps from [Part 1](/Part1_qc_alignment.md), but introduces the concept of using unix pipes to streamline the workflow. 
+
+We'll assume we have already downloaded and QC'ed fastq files as in steps 1-5 from Part 1 and that they exist in the directory structure first created there. 
+
+Steps here will use the following software packages:
+
+- [ samtools ](http://www.htslib.org/doc/samtools.html)
+- [ bwa ](http://bio-bwa.sourceforge.net/)
+- [ samblaster ](https://github.com/GregoryFaust/samblaster)
+
+Each major step below has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
+
+## Contents
+  
+1.    [ Motivation ](#Motivation)
+1.    [ Update your working directory ](#Update-your-working-directory)  
+2.    [ Piped alignment and post-processing ](#Piped-alignment-and-post-processing)
+3.    [ Index alignment files ](#Index-alignment-files)
+
+## Motivation
+
 In Part 1 of the tutorial, we downloaded data QC'ed it, aligned it to a reference genome, and did post-alignment processing. Each step was conducted using a discrete script. Each script required that all the data be read, modified, and then re-written. This creates a couple problems. For non-trivial datasets, all of this reading and writing takes time. It also generates many copies of the data. If our first approach had been applied to a 300 gigbyte dataset, by the time we finished we'd be using somewhere in the neighborhood of 1.8 terabytes of disk space. 
 
 In this section of the tutorial we'll see how we can streamline this approach. To do this we'll make use of a core feature of unix-like operating systems: the pipe. 
@@ -12,21 +33,6 @@ In this way, you can chain together many specialized programs to achieve some go
 
 Many programs in bioinformatics are designed with pipes in mind, including core utilities such as `samtools` and the variant caller `Freebayes` that we'll use in Part 4. 
 
-Steps here will use the following software packages:
-
-- [ samtools ](http://www.htslib.org/doc/samtools.html)
-- [ bwa ](http://bio-bwa.sourceforge.net/)
-- [ samblaster ](https://github.com/GregoryFaust/samblaster)
-
-We'll assume we have already downloaded and QC'ed fastq files as in steps 1-5 from [Part 1](/Part1_qc_alignment.md) and that they exist in the directory structure first created there. 
-
-Each major step below has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
-
-## Contents
-  
-1.    [ Update your working directory ](#Update-your-working-directory)  
-2.    [ Piped alignment and post-processing ](#Piped-alignment-and-post-processing)
-3.    [ Index alignment files ](#Index-alignment-files)
 
 ## Update your working directory
 

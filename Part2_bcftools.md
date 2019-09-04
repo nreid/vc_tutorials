@@ -15,11 +15,13 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 ## Contents
   
+1.    [ Motivation ](#Motivation)
 1.    [ Update your working directory ](#Update-your-working-directory)  
 2.    [ Generate a pileup file ](#Generate-a-pileup-file)  
 3.    [ Call variants ](#Call-variants)  
 4.    [ The VCF format ](#The-VCF-format)  
 
+## Motivation
 
 ## Update your working directory
 
