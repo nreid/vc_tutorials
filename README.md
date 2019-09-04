@@ -43,15 +43,21 @@ source:
 
 __Required software tools:__
 
-
-- [ samtools ](http://www.htslib.org/doc/samtools.html)
-- [ picard tools ](https://broadinstitute.github.io/picard/)
-- [ bwa ](http://bio-bwa.sourceforge.net/)
+_quality control_
 - [ FastQC ](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 - [ sickle ](https://github.com/najoshi/sickle)
-- [ bcftools ](http://www.htslib.org/doc/bcftools.html)
-- [ tabix ](http://www.htslib.org/doc/tabix.html)
+_alignment_
+- [ bwa ](http://bio-bwa.sourceforge.net/)
+_sequence alignment processing and manipulation_
+- [ samtools ](http://www.htslib.org/doc/samtools.html)
+- [ picard tools ](https://broadinstitute.github.io/picard/)
 - [ samblaster ](https://github.com/GregoryFaust/samblaster)
-- [ freebayes ](https://github.com/ekg/freebayes)
-- [ bedtools ](https://bedtools.readthedocs.io/en/latest/)
 - [ bamtools ](https://github.com/pezmaster31/bamtools)
+_variant calling_
+- [ bcftools ](http://www.htslib.org/doc/bcftools.html)
+- [ freebayes ](https://github.com/ekg/freebayes)
+- [ GATK ](https://software.broadinstitute.org/gatk/)
+_other utilities_
+- [ bgzip ](http://www.htslib.org/doc/bgzip.html)
+- [ tabix ](http://www.htslib.org/doc/tabix.html)
+- [ bedtools ](https://bedtools.readthedocs.io/en/latest/)
