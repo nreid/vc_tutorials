@@ -8,16 +8,16 @@ This repository is a usable, publicly available tutorial for introduction to the
 
 __Proposed structure:__
 
-1. Stepwise QC, alignment, post-alignment processing. 
+1. Stepwise QC, alignment, post-alignment processing
 
-2. Variant Calling: samtools mpileup. 
+2. Variant Calling: bcftools 
 
-3. Part 1, but a piped example. 
+3. Part 1, but a piped example
 
 4. 
-	a. Variant calling: Freebayes, post-filtering. 
+	a. Variant calling: Freebayes, post-filtering
 
-	b. Variant calling: GATK, joint calling using gvcf. post-filtering. 
+	b. Variant calling: GATK, joint calling using gvcf. post-filtering
 
 	c. Beyond variant calling: genotype likelihoods. (depending on audience?)
 
