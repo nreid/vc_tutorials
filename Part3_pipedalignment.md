@@ -1,11 +1,12 @@
 # Alignment, post-alignment processing using a pipe
 
+## Introduction
 
-Here we will see how we can get most of our big alignment and processing tasks from part 1 done in one fell swoop without creating many intermediate files. 
+In Part 1 of the tutorial, we downloaded our data QC'ed it, aligned it to a reference genome, and did post-alignment processing. Each step was conducted using a discrete script. Each script required that all the data be read, modified, and then re-written. This creates a couple problems. For non-trivial datasets, all of this reading and writing takes time. It also generates many copies of the data. If our first approach had been applied to a 300 gigbyte dataset, by the time we finished we'd be using somewhere in the neighborhood of 1.8 terabytes of disk space. 
 
-to do this we make use of a core feature of unix-like operating systems: the pipe. 
+In this section of the tutorial we'll see how we can streamline this approach. To do this we'll make use of a core feature of unix-like operating systems: the pipe. 
 
-the pipe "|" allows you to redirect the output of one command to the input of another. in unix-speak, you would say that you are redirecting the "standard output" stream of program 1 to the "standard input" of progam 2. 
+The pipe, `|` allows you to redirect the output of one command to the input of another. In unix-speak, you would say that you are redirecting the "standard output" stream of program 1 to the "standard input" of progam 2. 
 
 in this way, you can chain together many specialized programs to achieve some goal without having to repeatedly read and write files. this is helpful because you can avoid making a big mess of intermediate files that you don't need and, in the case of high throughput sequencing data, take up quite a lot of space. 
 
