@@ -48,7 +48,7 @@ align | mark duplicates | compress | sort >sample.bam.
 ```
 In our first step we'll align the data. In the second we pass it to the duplicate marking software. In the third we compress it. In the fourth we sort it, and finally write it to a file. 
 
-We can take each step from [Part 1](/Part1_qc_alignment.md) and slightly modify it to fit into the pipe. 
+For example:
 
 ```bash
 # set a variable 'GEN' that gives the location and base name of the reference genome:
@@ -61,23 +61,23 @@ samtools view -S -h -u - | \
 samtools sort -T /scratch/son - >son.bam
 ```
 
+Here we run `bwa mem` the same way as in Part 1. We pass the alignments to `samblaster`, which marks duplicates (we used `picard tools` previously). We then pass the aligned, duplicate-marked sequences to samtools to first compress, then sort them. Finally, we write the alignments to a bam file. 
+
+Instead of reading and writing our sequences 5 times, resulting in 6 copies of our sequence data, we now only have two copies (or 3 if we have quality trimmed), the original fastq files, and processed bam files. 
+
+If we have multiple bam files for each sample, we can then merge them into a single file. this is convenient, although not strictly necessary: both GATK and Freebayes identify which reads belong to which samples by the read group tags, and not the bam file from which they originated. 
+
 ___
 scripts:
-
+- [scripts/Part3a_alignment.sh](scripts/Part3a_alignment.sh)
 
 ## Index alignment files
 
+As in Part 1, the last step in preparing the reads is to index the bam files. This needs to be done to enable fast access to reads overlapping a given position of the genome. Without the index, if you wanted to access reads at the beginning of chromosome 20, you'd need to read through chromosomes 1-19 until you got there. With many samples or deep coverage, this would be a big problem. The bam index is a map to the bam file that lets you skip around quickly. We'll use samtools to do this. For example:   
 
+```bash
+samtools index ../align_pipe/*.bam
+```
 
-
-using bwa mem we first align and tag sequences with read groups. 
-
-next we stream the output using a pipe to samblaster, which marks duplicates. it can also identify split and discordantly mapping reads and write them to a separate file. useful for structural variation identification.
-
-finally we stream that output to samtools sort and write a compressed bam file. 
-
-instead of reading and writing our sequences 5 times, resulting in 6 copies of our sequence data, we now only have two copies, the original fastq files, and processed bam files. 
-
-if we have multiple sets of fastq files for each sample, we can then merge them into a single file. this is convenient, although not strictly necessary: both GATK and Freebayes identify which reads belong to which samples by the read group tags, and not the bam file from which they originated. 
-
-last, we index the files. this allows accessing reads from specific genomic regions without scanning the entire file. 
+scripts:
+- [scripts/Part3b_indexbams.sh](scripts/Part3b_indexbams.sh)
