@@ -61,7 +61,7 @@ samtools view -S -h -u - | \
 samtools sort -T /scratch/son - >son.bam
 ```
 
-Here we run `bwa mem` the same way as in Part 1. We pass the alignments to `samblaster`, which marks duplicates (we used `picard tools` previously). We then pass the aligned, duplicate-marked sequences to samtools to first compress, then sort them. Finally, we write the alignments to a bam file. 
+Here we run `bwa mem` the same way as in Part 1. We pass the alignments to `samblaster`, which marks duplicates (we used `picard tools` previously). `samblaster` doesn't need any options specified in this case. We then pass the aligned, duplicate-marked sequences to samtools to first compress, then sort them. For samtools the `-` in each command indicates that the data should be read from the standard input. For `samtools sort`, the `-T` indicates where temporary files should be written. Depending on the architecture of a given computer cluster, it may be better to write temporary files to a special disk, often titled /scratch, which may have faster read and write speeds than your home directory. Finally, we write the alignments to a bam file. 
 
 Instead of reading and writing our sequences 5 times, resulting in 6 copies of our sequence data, we now only have two copies (or 3 if we have quality trimmed), the original fastq files, and processed bam files. 
 
