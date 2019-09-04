@@ -35,5 +35,7 @@ INSERT FIGURE
 
 The key innovation here is the use of haplotype alleles. These allow the evidence for indels and complex variants with many possible alignments to be evaluated more rigorously, improving the sensitivity and specificity for these calls. 
 
+`freebayes` has a few other advantages as well. The biggest among them is that it is designed with piping in mind. It can accept a single stream of BAM input merged from multiple samples. That means that filtering or other alignment manipulations can be performed on the fly, delivering data to the caller without generating intermediate alignment files. 
+
 
 ## Update your working directory
