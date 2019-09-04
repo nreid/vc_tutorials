@@ -4,7 +4,9 @@ In this repository, re-working variant detection tutorials for UConn CBC worksho
 
 ## Introduction
 
-This repository is a usable, publicly available tutorial for introduction to the basics of variant calling from high-throughput short-read sequencing data. Most steps have associated bash scripts tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) scheduler that can be modified to run interactively or with another job scheduler.  
+This repository an introduction to the basics of variant calling from high-throughput short-read sequencing data. While some limited conceptual ground will be covered in the tutorial, if you are working through it independently, it will be much more helpful if you understand the motivation for the steps in advance. A useful (if dated) review of the underlying concepts is [Nielsen et al. 2011](https://www.nature.com/articles/nrg2986) in Nature Reviews Genetics. 
+
+Most steps have associated bash scripts tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) scheduler. These can be modified to run interactively or with another job scheduler.  
 
 Commands should never be executed on the submit nodes of any HPC machine.  If working on the Xanadu cluster, you should submit each script to the scheduler as `sbatch scriptname.sh` after modifying it as appropriate.  
 

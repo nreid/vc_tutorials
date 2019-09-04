@@ -21,3 +21,5 @@ SCRIPTS:
 where will reference genome/indexes reside?
 
 add section in part 1 on IGV. 
+
+Add note on license for distribution
