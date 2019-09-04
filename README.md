@@ -40,3 +40,14 @@ an arbitrary 5mb region of the genome.
 source:
 - https://www.nist.gov/programs-projects/genome-bottle
 - ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
+
+__Required software tools:__
+
+
+- [ samtools ](http://www.htslib.org/doc/samtools.html)
+- [ picard tools ](https://broadinstitute.github.io/picard/)
+- [ bwa ](http://bio-bwa.sourceforge.net/)
+- [ FastQC ](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+- [ sickle ](https://github.com/najoshi/sickle)
+- [ bcftools ](http://www.htslib.org/doc/bcftools.html)
+- [ tabix ](http://www.htslib.org/doc/tabix.html)
