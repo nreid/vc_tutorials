@@ -43,21 +43,21 @@ source:
 
 __Required software tools:__
 
-_quality control_
+_quality control_  
 - [ FastQC ](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-- [ sickle ](https://github.com/najoshi/sickle)
-_alignment_
+- [ sickle ](https://github.com/najoshi/sickle)  
+_alignment_  
 - [ bwa ](http://bio-bwa.sourceforge.net/)
-_sequence alignment processing and manipulation_
+_sequence alignment processing and manipulation_  
 - [ samtools ](http://www.htslib.org/doc/samtools.html)
 - [ picard tools ](https://broadinstitute.github.io/picard/)
 - [ samblaster ](https://github.com/GregoryFaust/samblaster)
-- [ bamtools ](https://github.com/pezmaster31/bamtools)
-_variant calling_
+- [ bamtools ](https://github.com/pezmaster31/bamtools)  
+_variant calling_  
 - [ bcftools ](http://www.htslib.org/doc/bcftools.html)
 - [ freebayes ](https://github.com/ekg/freebayes)
-- [ GATK ](https://software.broadinstitute.org/gatk/)
-_other utilities_
+- [ GATK ](https://software.broadinstitute.org/gatk/)  
+_other utilities_  
 - [ bgzip ](http://www.htslib.org/doc/bgzip.html)
 - [ tabix ](http://www.htslib.org/doc/tabix.html)
 - [ bedtools ](https://bedtools.readthedocs.io/en/latest/)
