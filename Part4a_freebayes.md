@@ -23,5 +23,10 @@ Each major step below has an associated bash script tailored to the UConn CBC Xa
 
 ## Motivation
 
+In [Part 2](/Part2_bcftools.md) we used `bcftools` to call variants. `bcftools` accepts the read pileup literally. Two factors combine to make this problematic for variant calling. First, indels and complex variants (indels + SNPs) may not have a single unambiguous representation. Second, we align reads (or read pairs) independently. This means that a single underlying biological sequence that differs from the reference may be represented by multiple different alignments in the read pileup. This can lead to both false negative and false positive variant calls. 
+
+`bcftools` deals with this problem by downgrading base qualities to account for uncertainty in the sequence alignment. This reduces the likelihood of false positive calls, but it also reduces the sensitivity to indels and nearby SNP variants. 
+
+
 
 ## Update your working directory

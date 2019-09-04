@@ -29,3 +29,5 @@ edit to keep "introduction" very short. add a "motivation" section after the tab
 consider making parts 1 and 3 completely independent. 
 
 add flow chart(s) to readme.md that can be revisited in subsequent sections
+
+make or add figures to explain freebayes, gatk. 
