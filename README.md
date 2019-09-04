@@ -8,7 +8,7 @@ This repository is a usable, publicly available tutorial for introduction to the
 
 __Proposed structure:__
 
-1. Stepwise QC, alignment, post-alignment processing
+1. [ Stepwise QC, alignment, post-alignment processing ](/Part1_qc_alignment.md)
 
 2. Variant Calling: bcftools 
 
