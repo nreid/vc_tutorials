@@ -18,7 +18,7 @@ Steps here will use the following software packages:
 - [ bwa ](http://bio-bwa.sourceforge.net/)
 - [ samblaster ](https://github.com/GregoryFaust/samblaster)
 
-We'll assume we have already downloaded and QC'ed fastq files as in steps 1-5 from [Part 1](/Part1_qc_alignment.md). 
+We'll assume we have already downloaded and QC'ed fastq files as in steps 1-5 from [Part 1](/Part1_qc_alignment.md) and that they exist in the directory structure first created there. 
 
 Each major step below has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
 
@@ -30,18 +30,50 @@ Each major step below has an associated bash script tailored to the UConn CBC Xa
 
 ## Update your working directory
 
+First we'll make a new directory to hold our second set of alignments. 
+
+```bash
+ mkdir align_pipe
+ ```
 
 ## Piped alignment and post-processing
+
+Our goal here in using the pipe is to read and write the data as few times as possible, within reason. So each time we read the data, we want to accomplish as many tasks with it as we can before we have to write it again. Some tasks are better suited to this than others. For example, alignment occurs on each read pair independently, so as we read through our data, the aligner can do its work and pass the alignment off to the next step. Compression works similarly well, as the compression algorithms we use don't need to see the entire file at once to do their work. Sorting and marking duplicates is a little more complicated, and the software we use for those will write temporary files if there is too much data to hold in memory, but piping still makes things more efficient. 
+
+Here is some pseudocode to give an idea of what what we're aiming at here:
+
+
+```bash
+align | mark duplicates | compress | sort >sample.bam.
+```
+In our first step we'll align the data. In the second we pass it to the duplicate marking software. In the third we compress it. In the fourth we sort it, and finally write it to a file. 
+
+We can take each step from [Part 1](/Part1_qc_alignment.md) and slightly modify it to fit into the pipe. 
+
+```bash
+# set a variable 'GEN' that gives the location and base name of the reference genome:
+GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
+
+# execute the pipe:
+bwa mem \
+-t 4 \
+-R '@RG\tID:son\tSM:son' \
+$GEN \
+../rawdata/son.1.fq \
+../rawdata/son.2.fq | \
+samblaster | \
+samtools view -S -h -u - | \
+samtools sort -T /scratch/son - >son.bam
+```
+
+___
+scripts:
 
 
 ## Index alignment files
 
 
-assume we start with QC'ed fastq files. 
 
-```bash
-bwa mem | samblaster | samtools sort >sample.bam.
-```
 
 using bwa mem we first align and tag sequences with read groups. 
 
