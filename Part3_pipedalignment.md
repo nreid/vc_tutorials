@@ -65,7 +65,7 @@ Here we run `bwa mem` the same way as in Part 1. We pass the alignments to `samb
 
 Instead of reading and writing our sequences 5 times, resulting in 6 copies of our sequence data, we now only have two copies (or 3 if we have quality trimmed), the original fastq files, and processed bam files. 
 
-If we have multiple bam files for each sample, we can then merge them into a single file. this is convenient, although not strictly necessary: both GATK and Freebayes identify which reads belong to which samples by the read group tags, and not the bam file from which they originated. 
+If we had multiple bam files for each sample, we could then merge them into a single file. this is convenient, although not strictly necessary: both GATK and Freebayes identify which reads belong to which samples by the read group tags, and not the bam file from which they originated. 
 
 ___
 scripts:
