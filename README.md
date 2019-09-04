@@ -10,7 +10,7 @@ __Proposed structure:__
 
 1. [ Stepwise QC, alignment, post-alignment processing ](/Part1_qc_alignment.md)
 
-2. Variant Calling: bcftools 
+2. [ Variant Calling: bcftools ](/Part2_bcftools.md)
 
 3. Part 1, but a piped example
 
