@@ -6,11 +6,11 @@ In Part 1 of the tutorial, we downloaded data QC'ed it, aligned it to a referenc
 
 In this section of the tutorial we'll see how we can streamline this approach. To do this we'll make use of a core feature of unix-like operating systems: the pipe. 
 
-The pipe, `|`, allows you to [redirect the output of one command to the input of another](https://en.wikipedia.org/wiki/Standard_streams). In unix-speak, you would say that you are redirecting the "standard output" stream of command 1 to the "standard input" of command 2. 
+The pipe, `|`, allows you to redirect the output of one command to the input of another. In unix-speak, you would say that you are [redirecting the "standard output" stream of command 1 to the "standard input" of command 2](https://en.wikipedia.org/wiki/Standard_streams). 
 
 In this way, you can chain together many specialized programs to achieve some goal without having to repeatedly read and write files. This mitigates both of the problems described above. 
 
-Many programs in bioinformatics are designed with pipes in mind, including core utilities such as `samtools` and the variant caller `Freebayes` we'll use in Part 4. 
+Many programs in bioinformatics are designed with pipes in mind, including core utilities such as `samtools` and the variant caller `Freebayes` that we'll use in Part 4. 
 
 Steps here will use the following software packages:
 
