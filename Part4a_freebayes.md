@@ -27,8 +27,13 @@ In [Part 2](/Part2_bcftools.md) we used `bcftools` to call variants. If you reme
 
 Two factors combine to make this problematic for variant calling. First, indels and complex variants (indels + SNPs) may not have a single unambiguous representation. Second, we align reads (or read pairs) independently. This means that a single underlying biological sequence that differs from the reference may be represented by multiple different alignments in the read pileup. This can lead to both false negative and false positive variant calls. 
 
-`bcftools` deals with this problem by downgrading base qualities to account for uncertainty in the sequence alignment. This reduces the likelihood of false positive calls, but it also reduces the sensitivity to indels and nearby SNP variants. 
+`bcftools` deals with this problem by downgrading base qualities to account for uncertainty in the sequence alignment (using "base alignment qualities"). This reduces the probability of false positive calls, but it also reduces the sensitivity to indels and nearby SNP variants. 
 
+The variant caller we will use here, `freebayes` and another, the GATK's `HaplotypeCaller` (discussed in [Part 4b](Part4b_gatk.md)) take different approaches to this problem. Instead of calling variants at single sites, `freebayes` calls _haplotypes_. Haplotypes are combinations of alleles at different sites found on a single chromosome. To do this, `freebayes` takes in the aligned reads overlapping a short region of the genome, standardizes the representation of indels, identifies candidate haplotypes, and then evaluates the evidence for variation at the site using a Bayesian model. 
+
+INSERT FIGURE
+
+The key innovation here is the use of haplotype alleles. These allow the evidence for indels and complex variants with many possible alignments to be evaluated more rigorously, improving the sensitivity and specificity for these calls. 
 
 
 ## Update your working directory
