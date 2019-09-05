@@ -2,7 +2,7 @@
 #SBATCH --job-name=sickle_run
 #SBATCH -n 1
 #SBATCH -N 1
-#SBATCH -c 4
+#SBATCH -c 6
 #SBATCH --mem=10G
 #SBATCH --qos=mcbstudent
 #SBATCH --partition=mcbstudent
@@ -46,5 +46,5 @@ sickle pe -t sanger \
 
 
 # run fastqc on all files matching "../rawdata/*trim*fq"
-fastqc -t 4 -o ../fastqc/ ../rawdata/*trim*fq
+fastqc -t 6 -o ../fastqc/ ../rawdata/*trim*fq
 

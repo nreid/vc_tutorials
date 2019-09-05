@@ -51,7 +51,7 @@ bcftools mpileup \
 	-f $GEN \
 	-b list.bam \
 	-q 20 -Q 30 \
-	-r chr20:10000000-15000000 >../variants_bcftools/chinesetrio.pileup
+	-r chr20:29400000-34400000 >../variants_bcftools/chinesetrio.pileup
 ```
 
 We give `bcftools` the reference genome with `-f`, a list of bam files with `-b`, tell it to exclude bases with quality lower than 30 and reads with mapping quality lower than 20 with `-q` and `-Q` and ask it to generate the pileup only for the region we're focusing on here with `-r`. 
@@ -98,7 +98,7 @@ The first few header lines give you basic information about the format and origi
 ##fileformat=VCFv4.2
 ##FILTER=<ID=PASS,Description="All filters passed">
 ##bcftoolsVersion=1.6+htslib-1.6
-##bcftoolsCommand=mpileup -f /UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta -b list.bam -q 20 -Q 30 -r chr20:10000000-15000000
+##bcftoolsCommand=mpileup -f /UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta -b list.bam -q 20 -Q 30 -r chr20:29400000-34400000
 ##reference=file:///UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
 ```
 The biggest chunk of header lines lists the sequences in the reference genome and their length. In this case there are 3366 sequences, but the vast majority of the genome is in the first 24: 22 autosomes + X + Y. 

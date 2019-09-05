@@ -2,7 +2,7 @@
 #SBATCH --job-name=quality_control
 #SBATCH -n 1
 #SBATCH -N 1
-#SBATCH -c 4
+#SBATCH -c 6
 #SBATCH --mem=10G
 #SBATCH --qos=general
 #SBATCH --partition=general
@@ -19,4 +19,4 @@ date
 module load fastqc
 
 # run fastqc. "*fq" tells it to run on all fastq files in directory "../rawdata/"
-fastqc -t 4 -o ../fastqc ../rawdata/*fq
+fastqc -t 6 -o ../fastqc ../rawdata/*fq

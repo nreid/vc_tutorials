@@ -31,3 +31,8 @@ consider making parts 1 and 3 completely independent.
 add flow chart(s) to readme.md that can be revisited in subsequent sections
 
 make or add figures to explain freebayes, gatk. 
+
+asking for more resources for align script (12 procs instead of 4) to try to get all three alignments done quicker. check to see if typical workshop size + teaching partition can support this. 
+	tried this. bwa does not like to run as a background process? tried two instances. one didn't use any processor. 
+
+

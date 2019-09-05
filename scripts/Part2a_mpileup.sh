@@ -32,7 +32,7 @@ bcftools mpileup \
 	-f $GEN \
 	-b list.bam \
 	-q 20 -Q 30 \
-	-r chr20:10000000-15000000 >../variants_bcftools/chinesetrio.pileup
+	-r chr20:29400000-34400000 >../variants_bcftools/chinesetrio.pileup
 
 
 

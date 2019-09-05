@@ -10,6 +10,7 @@ Steps here will use the following software packages:
 - [ bedtools ](https://bedtools.readthedocs.io/en/latest/)
 - [ bamtools ](https://github.com/pezmaster31/bamtools)
 - [ bgzip ](http://www.htslib.org/doc/bgzip.html)
+- [ tabix ](http://www.htslib.org/doc/tabix.html)
 
 Each major step below has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
 
@@ -48,16 +49,53 @@ mkdir -p variants_freebayes coverage_stats
 
 ## Decide where to call variants
 
-The most common approach to discovering genomic variation, short-read sequencing followed by reference mapping presents a few problems:
+The most common approach to discovering genomic variation, short-read sequencing followed by reference mapping, presents a few challenges:
 - Most genomes are drafts. This means that many regions present in the true genome of the reference individual are absent from the reference sequence. 
 - Many genomes contain regions of repetitive or highly similar sequence. 
 - The genomic composition of individuals within a species can be highly variable, with some regions copied, sometimes many times, or deleted. 
+- Finally, some regions present in the reference may simply be resistant to sequencing. 
 
-These issues mean that when you map 
+Because variant callers must assume (conditional on the mapping quality score) that reads aligned to the reference sequence were derived from the homologous region of another individual, these issues mean that your sequence alignments are likely to have problematic regions. 
+
+These regions come in three main flavors:
+- Regions that have more than expected sequencing coverage because they bear some sequence similarity to regions that are absent (or underrepresented) in the reference sequence. 
+- Regions that have less than expected sequencing coverage because they have been deleted or are resistant to sequencing. 
+- Regions that have the expected sequencing coverage, but low mapping qualities because there are other very similar regions present in the reference sequence. 
+
+In regions with excess coverage, true biological variation may be discovered, but it will be unclear if that variation represents polymorphism within an individual, divergence between copies within the same genome, or both. In any case, the location of the discovered true variation will also be unknown. Mapping quality scores may not be of any help here, as high sequence similarity to a missing region can result in high mapping quality scores. Furthermore, the excess pileup of reads in some of these regions can be extreme, with hundreds of times the expected coverage. This can dramatically slow the variant caller and balloon memory usage, unncessarily stalling an analysis. 
+
+In regions with deficient coverage, sequence variation may be discovered, but called genotypes can be inaccurate. For example, a 50kb deletion will not be detected by a variant caller such as `freebayes`. If a diploid individual is heterozygous for that deletion, any SNP or short indel genotypes called within that deletion will be called as homozygous. 
+
+Because we are likely to need to filter these regions out later, and the very high coverage ones may be computational bottlenecks, it is a good idea (though not always necessary depending on the application) to exclude them from variant calling. 
+
+There are many ways we can accomplish this, here we'll just try to identify 1kb windows with aberrantly high and low coverage and exclude those. We'll use `bedtools`, a really excellent program for manipulating genomic windows, and bamtools, which can merge and filter bam files. 
+
+```bash
+# genome index file from samtools faidx
+FAI=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta.fai
+
+# make a "genome" file, per bedtools makewindows command
+cut -f 1-2 $FAI > Homo_sapiens_assembly38.fasta.genome
+GFILE=Homo_sapiens_assembly38.fasta.genome
+
+# tell bedtools to output a "BED" file of 1kb non-overlapping windows
+bedtools makewindows -g $GFILE -w 1000 >hg38_1kb.bed
+```
+
+An aside about BED format:
+
+```bash
+chr1	0	1000
+chr1	1000	2000
+chr1	2000	3000
+```
+
+The simplest BED formatted file is a tab delimited table giving genomic intervals. Column 1 gives the sequence, column 2 gives the start of the window (0-indexed) and column 3 gives the end of the window (1-indexed). The 0 vs 1 indexing switch between start and stop positions often trips people up. It means the first base in any given window is actually 'start+1', but the last base is simply 'end'. Following columns can contain anything. 
+
+Now that we have a BED file with 3.2 million 1kb windows, (`wc -l hg38_1kb.bed`) we have to find out how much sequencing coverage they each have. 
 
 
 
-
-
-
-
+```bash
+tabix coverage_1kb.bed.gz chr20:29400000-34400000 | cut -f 6 | sort -g | awk '{x=50}{$1=int($1/x)*x}{print $1}' | uniq -c
+```

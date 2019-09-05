@@ -60,7 +60,7 @@ samtools faidx $GEN
 
 For all following steps of the workshop, we'll use data from the [Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) project, hosted by the [National Institute of Standards and Technology](https://www.nist.gov). The data were collected as part of an effort to create reference standards to compare genomic workflows. Large quantities of sequencing data have been generated on multiple platforms (Illumina, PacBio, etc) for seven individuals. 
 
-We're going to use data from a trio (mother, father, and son) of Chinese ancestry. The data consist of 250bp paired end reads sequenced on an Illumina HiSeq 2500. To ensure the analyses run quickly, we'll only use data from 5 megabases of chromosome 20 (10mb - 15mb). The expected sequencing coverage is 100x for the mother and father, and 45x for the son. 
+We're going to use data from a trio (mother, father, and son) of Chinese ancestry. The data consist of 250bp paired end reads sequenced on an Illumina HiSeq 2500. To ensure the analyses run quickly, we'll only use data from 5 megabases of chromosome 20 (position 29,400,000 to 34,400,000). The expected sequencing coverage is 100x for the mother and father, and 45x for the son. 
 
 More information about the data can be found at the links below:  
 - https://www.nist.gov/programs-projects/genome-bottle
@@ -85,7 +85,7 @@ Below is an example of this code put together to download data for the son:
 # set a variable 'SON' that gives the location of the file containing the data from the son:
 SON='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG005_NA24631_son/HG005_NA24631_son_HiSeq_300x/basespace_45x_bams_vcfs_PerFlowCell/150424_HG005_Homogeneity_02_FCA-22108087/150424_HG005_Homogeneity_FCA_Combined-23168145/150424-HG005-Homogeneity-FCA-Combined_S1.bam'
 # download the data, sort it, reformat to fastq
-samtools view -uh $SON chr20:10000000-15000000 | samtools sort -n - | bedtools bamtofastq -i /dev/stdin/ -fq son.1.fq -fq2 son.2.fq
+samtools view -uh $SON chr20:29400000-34400000 | samtools sort -n - | bedtools bamtofastq -i /dev/stdin/ -fq son.1.fq -fq2 son.2.fq
 ```
 ___
 scripts:
@@ -321,7 +321,7 @@ We can look at the per base coverage of individual regions easily using "samtool
 # make a list of bam files
 ls *mkdup.bam >list.bam
 # run samtools depth using that list
-samtools depth -f list.bam -r chr20:13934265-13934558
+samtools depth -f list.bam -r chr20:29637000-29643000
 ```
 
 We expect the parents to have 100x coverage and the son to have 50x coverage. Is there anything unusual about this region?
@@ -337,7 +337,7 @@ GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction
 samtools tview --reference $GEN dad.mkdup.bam
 ```
 
-After opening tview, type 'g' then enter 'chr20:13934265' to visit that location. 
+After opening tview, type 'g' then enter 'chr20:29637000' to visit that location. 
 "?" will bring up a help dialog
 "q" exits
 

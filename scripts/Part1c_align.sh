@@ -2,7 +2,7 @@
 #SBATCH --job-name=align
 #SBATCH -n 1
 #SBATCH -N 1
-#SBATCH -c 4
+#SBATCH -c 12
 #SBATCH --mem=40G
 #SBATCH --qos=general
 #SBATCH --partition=general
@@ -32,10 +32,10 @@ GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction
 
 # each line aligns one family member's sequences
 # son
-bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN $indir/son.1.fq $indir/son.2.fq -o $outdir/son.sam
+bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN $indir/son.1.fq $indir/son.2.fq -o $outdir/son.sam 
 # mom
-bwa mem -t 4 -R '@RG\tID:mom\tSM:mom' $GEN $indir/mom.1.fq $indir/mom.2.fq -o $outdir/mom.sam
+bwa mem -t 4 -R '@RG\tID:mom\tSM:mom' $GEN $indir/mom.1.fq $indir/mom.2.fq -o $outdir/mom.sam 
 # dad
-bwa mem -t 4 -R '@RG\tID:dad\tSM:dad' $GEN $indir/dad.1.fq $indir/dad.2.fq -o $outdir/dad.sam
+bwa mem -t 4 -R '@RG\tID:dad\tSM:dad' $GEN $indir/dad.1.fq $indir/dad.2.fq -o $outdir/dad.sam 
 
 

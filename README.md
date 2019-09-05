@@ -31,9 +31,10 @@ __Proposed structure:__
 
 __Proposed data:__
 
-NIST Genome in a Bottle asian trio. chr20:10000000-15000000
+NIST Genome in a Bottle asian trio. chr20:29400000-34400000
 
-an arbitrary 5mb region of the genome. 
+an arbitrary 5mb region of the genome
+- has a couple regions with mapping problems. 
 - takes only a few minutes to align. 
 - 50-100x coverage for each of 3 individuals. 
 
