@@ -29,13 +29,35 @@ Two factors combine to make this problematic for variant calling. First, indels 
 
 `bcftools` deals with this problem by downgrading base qualities to account for uncertainty in the sequence alignment (using "base alignment qualities"). This reduces the probability of false positive calls, but it also reduces the sensitivity to indels and nearby SNP variants. 
 
-The variant caller we will use here, `freebayes` and another, the GATK's `HaplotypeCaller` (discussed in [Part 4b](Part4b_gatk.md)) take different approaches to this problem. Instead of calling variants at single sites, `freebayes` calls _haplotypes_. Haplotypes are combinations of alleles at different sites found on a single chromosome. To do this, `freebayes` takes in the aligned reads overlapping a short region of the genome, standardizes the representation of indels, identifies candidate haplotypes, and then evaluates the evidence for variation at the site using a Bayesian model. 
+The variant caller we will use here, `freebayes` and another, the GATK's `HaplotypeCaller` (discussed in [Part 4b](Part4b_gatk.md)) take different approaches to this problem. Instead of calling variants at single sites, `freebayes` calls __haplotypes__. Haplotypes are combinations of alleles at different sites found on a single chromosome. To do this, `freebayes` takes in the aligned reads overlapping a short region of the genome, standardizes the representation of indels, identifies candidate haplotypes from the reads (which must be shorter than the read length), and then evaluates the evidence for variation at the site using a Bayesian model. 
 
 INSERT FIGURE
 
 The key innovation here is the use of haplotype alleles. These allow the evidence for indels and complex variants with many possible alignments to be evaluated more rigorously, improving the sensitivity and specificity for these calls. 
 
-`freebayes` has a few other advantages as well. The biggest among them is that it is designed with piping in mind. It can accept a single stream of BAM input merged from multiple samples. That means that filtering or other alignment manipulations can be performed on the fly, delivering data to the caller without generating intermediate alignment files. 
+`freebayes` has a few other advantages as well. The biggest among them is that it is designed with piping in mind. It can accept a single stream of BAM input merged from multiple samples. That means that filtering or other alignment manipulations can be performed on the fly, delivering data to the caller without generating intermediate alignment files. We will see how this can work below. 
 
 
 ## Update your working directory
+
+First we'll create a new directory to hold the results we'll generate. Make sure you're in the directory vc_workshop and type:
+
+```bash
+mkdir -p variants_freebayes coverage_stats
+```
+
+## Decide where to call variants
+
+The most common approach to discovering genomic variation, short-read sequencing followed by reference mapping presents a few problems:
+- Most genomes are drafts. This means that many regions present in the true genome of the reference individual are absent from the reference sequence. 
+- Many genomes contain regions of repetitive or highly similar sequence. 
+- The genomic composition of individuals within a species can be highly variable, with some regions copied, sometimes many times, or deleted. 
+
+These issues mean that when you map 
+
+
+
+
+
+
+
