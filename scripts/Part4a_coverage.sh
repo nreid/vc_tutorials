@@ -62,5 +62,8 @@ bedtools map \
 bgzip ../coverage_stats/coverage_1kb.bed
 tabix -p bed ../coverage_stats/coverage_1kb.bed.gz
 
+# select and merge outlier windows
+zcat ../coverage_stats/coverage_1kb.bed.gz | awk '$6 < 850 || $6 > 2250' | bedtools merge | bgzip >../coverage_stats/coverage_outliers.bed.gz 
+
 date
 

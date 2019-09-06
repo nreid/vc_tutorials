@@ -142,11 +142,27 @@ tabix coverage_1kb.bed.gz chr20:29400000-34400000 | cut -f 6 | sort -g | awk '{x
 
 This code uses `tabix` to extract only the windows we grabbed data for, cuts out the 6th column of the file (the count of reads), sorts it by numeric value, uses `awk` to round to the nearest 100, and then prints only uniqe values and their counts. 
 
-You can see that the modal value is 1700 reads per window, and most values are clustered around that. We can think of the mode as being the expectated coverage for well-behaved parts of the genome. Some windows, however, have much lower coverage, and a handful have extreme deviations, up to 40x the modal value. 
+You can see that the modal value is 1700 reads per window, and most values are clustered around that. We can think of the mode as being the expectated coverage for well-behaved parts of the genome. Some windows, however, have much lower coverage, and a handful have extreme deviations, up to 40x the modal value (73000 reads per window!). That amounts to a combined coverage of 10,000x. 
 
-You can load this into R to make a plot (not part of this tutorial!) that can help you see a little better what's going on:
+You could load this file into R to make a plot (not part of this tutorial!) that could help you see a little better what's going on:
 
 ![windowed coverage](/img/coverage_plot.png)
+
+We can see that some regions have excesses or deficiencies of coverage, and that these windows tend to cluster. In some cases, it is worth trying to sort out what's going on with coverage abberations using specific tools, as they may result from sample-specific structural variants (structural variation is [__very important__](https://www.nature.com/articles/nature15394)), but for short variant calling, we want to ignore them. 
+
+Unfortunately, there's no discrete boundary between normal variation in coverage of single-copy genome sequence and problematic regions, so here we'll just keep windows that are less than 0.5 times the modal value and greater than 1.5 times the modal value. 
+
+We can select those windows and merge them together like this:
+
+```bash
+zcat ../coverage_stats/coverage_1kb.bed.gz | \
+awk '$6 < 850 || $6 > 2250' | \
+bedtools merge | \
+bgzip >../coverage_stats/coverage_outliers.bed.gz 
+```
+It's worth mentioning that `freebayes` can accept a copy number map, in BED format that gives the copy number per sample, per region for the whole genome. If you identified CNVs of interest and wanted to call genotypes within them, you could use that information, rather than excluding those regions. 
+
+## Call variants
 
 
 
