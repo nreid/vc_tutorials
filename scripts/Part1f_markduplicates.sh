@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=deduplication
+#SBATCH --job-name=markdups
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 1
@@ -49,3 +49,5 @@ java -jar $PICARD MarkDuplicates \
         METRICS_FILE=$IN.metrics.txt \
         ASSUME_SORT_ORDER=coordinate \
         CREATE_INDEX=True
+
+date

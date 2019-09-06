@@ -21,3 +21,5 @@ module load bcftools
 cd ../variants_bcftools
 
 bcftools call -m -v -Oz -o chinesetrio.vcf.gz chinesetrio.pileup
+
+date

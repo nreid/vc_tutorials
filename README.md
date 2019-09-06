@@ -37,6 +37,8 @@ an arbitrary 5mb region of the genome
 - has a couple regions with mapping problems. 
 - takes only a few minutes to align. 
 - 50-100x coverage for each of 3 individuals. 
+	- 2x250bp pe for son
+	- 2x150bp pe for parents
 
 source:
 - https://www.nist.gov/programs-projects/genome-bottle

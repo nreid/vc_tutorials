@@ -8,8 +8,8 @@
 #SBATCH --partition=general
 #SBATCH --mail-user=
 #SBATCH --mail-type=ALL
-#SBATCH -o ../log_files/%x_%j.out
-#SBATCH -e ../log_files/%x_%j.err
+#SBATCH -o %x_%j.out
+#SBATCH -e %x_%j.err
 
 hostname
 date
@@ -32,10 +32,12 @@ GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction
 
 # each line aligns one family member's sequences
 # son
-bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN $indir/son.1.fq $indir/son.2.fq -o $outdir/son.sam 
+bwa mem -t 12 -R '@RG\tID:son\tSM:son' $GEN $indir/son.1.fq $indir/son.2.fq -o $outdir/son.sam 
+date
 # mom
-bwa mem -t 4 -R '@RG\tID:mom\tSM:mom' $GEN $indir/mom.1.fq $indir/mom.2.fq -o $outdir/mom.sam 
+bwa mem -t 12 -R '@RG\tID:mom\tSM:mom' $GEN $indir/mom.1.fq $indir/mom.2.fq -o $outdir/mom.sam 
+date
 # dad
-bwa mem -t 4 -R '@RG\tID:dad\tSM:dad' $GEN $indir/dad.1.fq $indir/dad.2.fq -o $outdir/dad.sam 
-
+bwa mem -t 12 -R '@RG\tID:dad\tSM:dad' $GEN $indir/dad.1.fq $indir/dad.2.fq -o $outdir/dad.sam 
+date
 

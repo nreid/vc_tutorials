@@ -17,4 +17,6 @@ date
 module load samtools
 
 # "*mkdup.bam" will refer to each of the 
-samtools index ../align_pipe/*.bam
+for file in ../align_pipe/*bam
+	do samtools index $file
+done

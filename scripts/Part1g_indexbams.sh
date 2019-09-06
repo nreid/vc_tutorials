@@ -17,4 +17,8 @@ date
 module load samtools
 
 # "*mkdup.bam" will refer to each of the 
-samtools index ../align_stepwise/*mkdup.bam
+for file in ../align_stepwise/*mkdup.bam
+	do samtools index $file
+done
+
+date

@@ -36,3 +36,9 @@ asking for more resources for align script (12 procs instead of 4) to try to get
 	tried this. bwa does not like to run as a background process? tried two instances. one didn't use any processor. 
 
 
+## 19.09.06
+	checked parts 1,2,3. all scripts run fine. 
+	alignment may take too long. consider trimming focal region to 2-3mb instead of 5?
+		in piped example, son takes 10min, mom and dad 18 min each. 
+		need to time the other scripts. 
+

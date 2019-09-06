@@ -1,4 +1,3 @@
-
 #!/bin/bash 
 #SBATCH --job-name=bam_sort
 #SBATCH -n 1
@@ -46,3 +45,4 @@ java -jar $PICARD SortSam \
         CREATE_INDEX=True
 
 
+date

@@ -34,5 +34,5 @@ bcftools mpileup \
 	-q 20 -Q 30 \
 	-r chr20:29400000-34400000 >../variants_bcftools/chinesetrio.pileup
 
-
+date
 

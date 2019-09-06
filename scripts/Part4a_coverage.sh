@@ -22,6 +22,7 @@ module load bedtools
 module load bamtools
 module load htslib
 
+mkdir -p ../coverage_stats
 cd ../coverage_stats
 
 # genome index file from samtools faidx
@@ -61,5 +62,5 @@ bedtools map \
 bgzip ../coverage_stats/coverage_1kb.bed
 tabix -p bed ../coverage_stats/coverage_1kb.bed.gz
 
-
+date
 

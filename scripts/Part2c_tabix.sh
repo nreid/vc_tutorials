@@ -21,3 +21,5 @@ module load htslib
 cd ../variants_bcftools
 
 tabix -p vcf chinesetrio.vcf.gz
+
+date

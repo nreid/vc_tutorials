@@ -24,7 +24,7 @@ Each major step below has an associated bash script tailored to the UConn CBC Xa
 
 ## Motivation
 
-In [Part 2](/Part2_bcftools.md) we used `bcftools` to call variants. If you remember, the two step protocol in `bcftools` is to first summarize the read pileup, base by base, across the genome, and then evaluate the evidence for variation at each site. This means `bcftools` takes the alignments in the read pileup literally. 
+In [Part 2](/Part2_bcftools.md) we used `bcftools` to call variants. You will remember the two step protocol in `bcftools` is to first summarize the read pileup, base by base, across the genome, and then evaluate the evidence for variation at each site. This means `bcftools` takes the alignments in the read pileup literally. 
 
 Two factors combine to make this problematic for variant calling. First, indels and complex variants (indels + SNPs) may not have a single unambiguous representation. Second, we align reads (or read pairs) independently. This means that a single underlying biological sequence that differs from the reference may be represented by multiple different alignments in the read pileup. This can lead to both false negative and false positive variant calls. 
 
@@ -53,20 +53,21 @@ The most common approach to discovering genomic variation, short-read sequencing
 - Most genomes are drafts. This means that many regions present in the true genome of the reference individual are absent from the reference sequence. 
 - Many genomes contain regions of repetitive or highly similar sequence. 
 - The genomic composition of individuals within a species can be highly variable, with some regions copied, sometimes many times, or deleted. 
-- Finally, some regions present in the reference may simply be resistant to sequencing. 
+- Some regions present in the reference may simply be resistant to sequencing. 
+- Finally, the sizes of fragments typically sequenced are often smaller than the size of repetitive sequence motifs. 
 
-Because variant callers must assume (conditional on the mapping quality score) that reads aligned to the reference sequence were derived from the homologous region of another individual, these issues mean that your sequence alignments are likely to have problematic regions. 
+Because variant callers must assume (conditional on the mapping quality score) that reads aligned to the reference sequence were derived from the homologous region of another individual, these issues mean that your sequence alignments are likely to have problematic regions that lead to unreliable inference. 
 
 These regions come in three main flavors:
 - Regions that have more than expected sequencing coverage because they bear some sequence similarity to regions that are absent (or underrepresented) in the reference sequence. 
 - Regions that have less than expected sequencing coverage because they have been deleted or are resistant to sequencing. 
-- Regions that have the expected sequencing coverage, but low mapping qualities because there are other very similar regions present in the reference sequence. 
+- Regions that have the expected sequencing coverage, but reads mapping there have low mapping qualities because there are other very similar regions present in the reference sequence. 
 
-In regions with excess coverage, true biological variation may be discovered, but it will be unclear if that variation represents polymorphism within an individual, divergence between copies within the same genome, or both. In any case, the location of the discovered true variation will also be unknown. Mapping quality scores may not be of any help here, as high sequence similarity to a missing region can result in high mapping quality scores. Furthermore, the excess pileup of reads in some of these regions can be extreme, with hundreds of times the expected coverage. This can dramatically slow the variant caller and balloon memory usage, unncessarily stalling an analysis. 
+In regions with excess coverage, true biological variation may be discovered, but it will be unclear if that variation represents polymorphism within an individual, divergence between copies within the same genome, or both. In any case, the true location of the discovered variation will also be unknown. Mapping quality scores may not be of any help here, as high sequence similarity to a missing region can result in high mapping quality scores. Furthermore, the excess pileup of reads in some of these regions can be extreme, with hundreds of times the expected coverage. This can dramatically slow the variant caller and balloon memory usage, unncessarily stalling an analysis. 
 
 In regions with deficient coverage, sequence variation may be discovered, but called genotypes can be inaccurate. For example, a 50kb deletion will not be detected by a variant caller such as `freebayes`. If a diploid individual is heterozygous for that deletion, any SNP or short indel genotypes called within that deletion will be called as homozygous. 
 
-Because we are likely to need to filter these regions out later, and the very high coverage ones may be computational bottlenecks, it is a good idea (though not always necessary depending on the application) to exclude them from variant calling. 
+Because we are likely to need to filter these regions out later, and the very high coverage ones may be computational bottlenecks, it is a good idea (though not always necessary depending on the application) to exclude them from initial variant calling. 
 
 There are many ways we can accomplish this, here we'll just try to identify 1kb windows with aberrantly high and low coverage and exclude those. We'll use `bedtools`, a really excellent program for manipulating genomic windows, and bamtools, which can merge and filter bam files. 
 
@@ -94,8 +95,39 @@ The simplest BED formatted file is a tab delimited table giving genomic interval
 
 Now that we have a BED file with 3.2 million 1kb windows, (`wc -l hg38_1kb.bed`) we have to find out how much sequencing coverage they each have. 
 
+```bash
+# go to sequence alignment folder
+cd ../align_pipe
+
+# make a list of bam files
+ls *bam >bam.list
+
+# pipe:
+	# 1) merge bam files
+	# 2) filter by quality and proper pairing
+	# 3) convert alignments to bed format
+	# 4) map alignments to 1kb windows, counting (but also getting the mean and median of the mapping quality score from column 5)
+
+bamtools merge -list bam.list | \
+bamtools filter -in - -mapQuality ">30" -isDuplicate false -isProperPair true | \
+bedtools bamtobed -i stdin | \
+bedtools map \
+-a $WIN1KB \
+-b stdin \
+-c 5 -o mean,median,count \
+-g $GFILE \
+>../coverage_stats/coverage_1kb.bed
+```
+
+
+
+
+
+
+
+
 
 
 ```bash
-tabix coverage_1kb.bed.gz chr20:29400000-34400000 | cut -f 6 | sort -g | awk '{x=50}{$1=int($1/x)*x}{print $1}' | uniq -c
+tabix coverage_1kb.bed.gz chr20:29400000-34400000 | cut -f 6 | sort -g | awk '{x=100}{$1=int($1/x)*x}{print $1}' | uniq -c
 ```
