@@ -122,6 +122,8 @@ bedtools map \
 >../coverage_stats/coverage_1kb.bed
 ```
 
+This pipeline merges the bam files into a single stream, passes them to a filter, which keeps only properly paired reads with mapping quality > 30, converts the alignments to BED format, and then counts how many hit each window in our 1kb genomic window file. 
+
 Ok, now we've summarized coverage in units of reads per 1kb window. The file looks like this:
 
 ```bash
@@ -160,9 +162,14 @@ awk '$6 < 850 || $6 > 2250' | \
 bedtools merge | \
 bgzip >../coverage_stats/coverage_outliers.bed.gz 
 ```
+
+Note the last step here. You can a pipe text stream to bgzip so that it is immediately compressed. 
+
 It's worth mentioning that `freebayes` can accept a copy number map, in BED format that gives the copy number per sample, per region for the whole genome. If you identified CNVs of interest and wanted to call genotypes within them, you could use that information, rather than excluding those regions. 
 
 ## Call variants
+
+Now that we've decided which regions to exclude from analysis, we can move forward with variant calling. Here we want to construct a pipeline that allows us to filter out the reads from offending regions and pass the rest to freebayes. There are several ways to do this, but we'll just look at one. 
 
 
 
