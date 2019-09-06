@@ -96,6 +96,9 @@ The simplest BED formatted file is a tab delimited table giving genomic interval
 Now that we have a BED file with 3.2 million 1kb windows, (`wc -l hg38_1kb.bed`) we have to find out how much sequencing coverage they each have. 
 
 ```bash
+# set variable for 1kb window folder
+WIN1KB=../coverage_stats/hg38_1kb.bed
+
 # go to sequence alignment folder
 cd ../align_pipe
 
@@ -119,15 +122,31 @@ bedtools map \
 >../coverage_stats/coverage_1kb.bed
 ```
 
+Ok, now we've summarized coverage in units of reads per 1kb window. The file looks like this:
+
+```bash
+chr20	29399000	29400000	59	60	120
+chr20	29400000	29401000	56.99429224	60	1752
+chr20	29401000	29402000	58.54471931	60	2102
+chr20	29402000	29403000	59.48537005	60	1743
+```
 
 
-
-
-
-
-
+Columns 1-3 are standard BED columns. Columns 4-6 are the mean and median of the mapping quality scores, and the count of reads mapping to the window for all three samples. A coarse way of looking at the distribution across windows is below:
 
 
 ```bash
+module load htslib
 tabix coverage_1kb.bed.gz chr20:29400000-34400000 | cut -f 6 | sort -g | awk '{x=100}{$1=int($1/x)*x}{print $1}' | uniq -c
 ```
+
+This code uses `tabix` to extract only the windows we grabbed data for, cuts out the 6th column of the file (the count of reads), sorts it by numeric value, uses `awk` to round to the nearest 100, and then prints only uniqe values and their counts. 
+
+You can see that the modal value is 1700 reads per window, and most values are clustered around that. We can think of the mode as being the expectated coverage for well-behaved parts of the genome. Some windows, however, have much lower coverage, and a handful have extreme deviations, up to 40x the modal value. 
+
+You can load this into R to make a plot (not part of this tutorial!) that can help you see a little better what's going on:
+
+![windowed coverage](/img/coverage_plot.png)
+
+
+
