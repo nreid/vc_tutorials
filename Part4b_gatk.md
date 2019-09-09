@@ -30,7 +30,9 @@ In [Part 4a](/Part4a_freebayes.md) we used `freebayes` to call variants. We lear
 1. For model systems they have tools that recalibrate the quality scores for:  
     a. Bases in aligned sequence data (base quality score recalibration).  
     b. Called variants (variant quality score recalibration).  
+
  Recalibrating the scores simply means that the phred-scaled error probabilities they represent become more accurate. These tools require training data in the form of independently ascertained variants that are likely to occur in your samples. These are easily obtainable for model systems, but not so much in others. 
+
 2. They recommend a two-step procedure for multi-sample variant calling. This procedure makes scaling to calling variants on very large cohorts more efficient. 
 
 Here we will not demonstrate the quality-score recalibration, but we will use the two-step multi-sample variant calling procedure. 
