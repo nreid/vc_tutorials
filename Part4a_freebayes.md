@@ -165,7 +165,13 @@ bgzip >../coverage_stats/coverage_outliers.bed.gz
 
 Note the last step here. You can a pipe text stream to bgzip so that it is immediately compressed. 
 
+Using these thresholds we will exclude 672kb of our 5mb region. 
+
 It's worth mentioning that `freebayes` can accept a copy number map, in BED format, that gives the copy number per sample, per region for the whole genome. If you identified CNVs of interest and wanted to call genotypes within them (or on the sex chromosomes, or mitochondrion), you could use that information in principle, rather than excluding those regions. 
+
+___
+scripts:
+- [scripts/Part4a_coverage.sh](scripts/Part4a_coverage.sh)
 
 ## Call variants
 
@@ -185,9 +191,19 @@ freebayes -f $GEN --stdin | \
 bgzip -c >../variants_freebayes/chinesetrio_fb.vcf.gz
 ```
 
+In this pipe we merge all three sample bams into a single stream using `bamtools merge`. We send that stream to `bamtools filter` to exclude reads with poor mapping quality and those that aren't properly paired. The reads are then passed to `bedtools intersect` with the `-v` flag set, and our set of outlier windows. In this part, any reads that overlap the windows we flagged above will be excluded. This filtered stream of reads is then passed to `freebayes` to actually call variants, and then the resulting VCF file is passed to `bgzip` to be compressed. 
 
+So in this approach, instead of telling `freebayes` which specific regions to evaluate, we are instead letting it run over the whole region but excising the unwanted data from the stream. 
 
+If we compare this approach to simply running `freebayes` over the whole region and filtering afterward, for example:
 
+```freebayes
+freebayes -f $GEN -0 -L bam.list -r chr20:29400000-34400000 | bgzip -c >out.vcf.gz
+```
 
+We see that excluding the regions with high and low coverage yields a run time of about 29 minutes for this region, while simply running it on the entire region results in a run time of 45 minutes. Most of that 50% increase in run time is attributable to the very small number of windows with very high coverage. 
 
+___
+scripts:
+- [scripts/Part4b_freebayes.sh](scripts/Part4b_freebayes.sh)
 

@@ -42,3 +42,8 @@ asking for more resources for align script (12 procs instead of 4) to try to get
 		in piped example, son takes 10min, mom and dad 18 min each. 
 		need to time the other scripts. 
 
+## 19.09.09
+
+	get most recent freebayes on the cluster
+
+
