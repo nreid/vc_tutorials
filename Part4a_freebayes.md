@@ -165,11 +165,29 @@ bgzip >../coverage_stats/coverage_outliers.bed.gz
 
 Note the last step here. You can a pipe text stream to bgzip so that it is immediately compressed. 
 
-It's worth mentioning that `freebayes` can accept a copy number map, in BED format that gives the copy number per sample, per region for the whole genome. If you identified CNVs of interest and wanted to call genotypes within them, you could use that information, rather than excluding those regions. 
+It's worth mentioning that `freebayes` can accept a copy number map, in BED format, that gives the copy number per sample, per region for the whole genome. If you identified CNVs of interest and wanted to call genotypes within them (or on the sex chromosomes, or mitochondrion), you could use that information in principle, rather than excluding those regions. 
 
 ## Call variants
 
 Now that we've decided which regions to exclude from analysis, we can move forward with variant calling. Here we want to construct a pipeline that allows us to filter out the reads from offending regions and pass the rest to freebayes. There are several ways to do this, but we'll just look at one. 
+
+```bash
+# set a variable for the reference genome location
+GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+
+OUTLIERWINDOWS=../coverage_stats/coverage_outliers.bed.gz
+
+# note that bamtools region specification uses ".." instead of "-"
+bamtools merge -list bam.list -region chr20:29400000..34400000 | \
+bamtools filter -in stdin -mapQuality ">30" -isProperPair true | \
+bedtools intersect -v -a stdin -b $OUTLIERWINDOWS | \
+freebayes -f $GEN --stdin | \
+bgzip -c >../variants_freebayes/chinesetrio_fb.vcf.gz
+```
+
+
+
+
 
 
 
