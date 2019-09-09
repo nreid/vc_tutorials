@@ -28,8 +28,8 @@ In [Part 4a](/Part4a_freebayes.md) we used `freebayes` to call variants. We lear
 `GATK` is a much broader set of tools than just the variant calling algorithm. It actively developed and supported by a team at the Broad and they regularly update a set of best practices for using their tools. The approach they recommend for calling variants on multiple samples differs in a couple ways from others:
 
 1. For model systems they have tools that recalibrate the quality scores for:  
-    a. Bases in aligned sequence data (base quality score recalibration). 
-    b. Called variants (variant quality score recalibration). 
+    a. Bases in aligned sequence data (base quality score recalibration).  
+    b. Called variants (variant quality score recalibration).  
  Recalibrating the scores simply means that the phred-scaled error probabilities they represent become more accurate. These tools require training data in the form of independently ascertained variants that are likely to occur in your samples. These are easily obtainable for model systems, but not so much in others. 
 2. They recommend a two-step procedure for multi-sample variant calling. This procedure makes scaling to calling variants on very large cohorts more efficient. 
 
