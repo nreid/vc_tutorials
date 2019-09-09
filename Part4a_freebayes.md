@@ -150,7 +150,7 @@ You could load this file into R to make a plot (not part of this tutorial!) that
 
 ![windowed coverage](/img/coverage_plot.png)
 
-We can see that some regions have excesses or deficiencies of coverage, and that these windows tend to cluster. In some cases, it is worth trying to sort out what's going on with coverage abberations using specific tools, as they may result from sample-specific structural variants (structural variation is [__very important__](https://www.nature.com/articles/nature15394)), but for short variant calling, we want to ignore them. 
+We can see that some regions have excesses or deficiencies of coverage, and that these windows tend to cluster. In some cases, it is worth trying to sort out what's going on with coverage abberations using specific tools, as they may result from sample-specific structural variants (structural variation can be biologically [__very important__](https://www.nature.com/articles/nature15394)), but for short variant calling, we want to ignore them. 
 
 Unfortunately, there's no discrete boundary between normal variation in coverage of single-copy genome sequence and problematic regions, so here we'll just keep windows that are less than 0.5 times the modal value and greater than 1.5 times the modal value. 
 
