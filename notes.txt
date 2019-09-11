@@ -45,5 +45,21 @@ asking for more resources for align script (12 procs instead of 4) to try to get
 ## 19.09.09
 
 	get most recent freebayes on the cluster
+	consider removing -L targets from gatk section, that would make it independent of Part 4a
+	major problem with GATK
+		"16:49:17.475 WARN  PairHMM - ***WARNING: Machine does not have the AVX instruction set support needed for the accelerated AVX PairHmm. Falling back to the MUCH slower LOGLESS_CACHING implementation!"
+
+		This leads to much longer run time when submitted through slurm than when executed in interactive session. 
+
+## 19.09.11
+
+	consider adding discussion of ins and outs of targets, when to specify them. target/exome capture is a good extra discussion point. 
+	get freebayes updated
+	you will eventually have to point at a different version of the human genome, right?
+	issue with AVX PairHMM is confined to nodes 11-13 (so far). 
+		this is a cluster problem. 
+		need to make GATK run only on nodes that have AVX instruction set
+		can specify xeon partition, will likely solve the problem. 
+
 
 

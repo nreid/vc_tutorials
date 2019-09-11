@@ -40,7 +40,7 @@ WIN1KB=../coverage_stats/hg38_1kb.bed
 cd ../align_pipe
 
 # make a list of bam files
-ls *bam >bam.list
+find ../align_pipe/ -name "*bam" >bam.list
 
 # pipe:
 	# 1) merge bam files
