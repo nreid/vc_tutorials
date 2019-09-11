@@ -23,11 +23,11 @@ __Proposed structure:__
 4. 
 	a. [ Variant calling: Freebayes ](Part4a_freebayes.md)
 
-	b. Variant calling: GATK, joint calling using gvcf
+	b. [ Variant calling: GATK, joint calling using gvcf ](Part4b_gatk.md)
 
 	c. Beyond variant calling: genotype likelihoods. (depending on audience?)
 
-5. Variant annotation. 
+5. [ Variant annotation ](Part5_variant_annotation.md) 
 
 __Proposed data:__
 
