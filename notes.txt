@@ -61,5 +61,10 @@ asking for more resources for align script (12 procs instead of 4) to try to get
 		need to make GATK run only on nodes that have AVX instruction set
 		can specify xeon partition, will likely solve the problem. 
 
+## 19.09.12
 
+	need to get some software installed/updated. 
+		vt
+		vcflib
+		
 

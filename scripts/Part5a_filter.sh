@@ -21,24 +21,13 @@ mkdir -p ../filtered_vcfs
 
 cd ../filtered_vcfs
 
-bcftools filter -s LowQual -e '%QUAL<20' ../variants_freebayes/chinesetrio_fb.vcf.gz | bgzip -c > fb_filter.vcf.gz
-bcftools filter -s LowQual -e '%QUAL<20' ../variants_gatk/chinesetrio.vcf | bgzip -c > gatk_filter.vcf.gz
-bcftools filter -s LowQual -e '%QUAL<20' ../variants_bcftools/chinesetrio.vcf.gz | bgzip -c > bcf_filter.vcf.gz
+bcftools filter -s LowQual -e '%QUAL<50' ../variants_freebayes/chinesetrio_fb.vcf.gz | bgzip -c > fb_filter.vcf.gz
+bcftools filter -s LowQual -e '%QUAL<50' ../variants_gatk/chinesetrio.vcf | bgzip -c > gatk_filter.vcf.gz
+bcftools filter -s LowQual -e '%QUAL<50' ../variants_bcftools/chinesetrio.vcf.gz | bgzip -c > bcf_filter.vcf.gz
+
+for file in *vcf.gz
+do tabix -f -p vcf $file
+done
 
 
 
-
-
-
-
-
-
-
-
-module load htslib
-
-
-# get the dbsnp set for chromosome 20
-tabix -h ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606/VCF/00-All.vcf.gz 20 | \
-sed 's/^20/chr20/' | \
-bgzip -c >chr20.dbsnp.vcf.gz
