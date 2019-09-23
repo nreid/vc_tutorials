@@ -21,7 +21,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
   
 1.    [ Motivation ](#Motivation)
 1.    [ Set up a working directory ](#Set-up-a-working-directory)  
-2.    [ Prepare reference genome ](#Prepare-Reference-genome)
+2.    [ Prepare a reference genome ](#Prepare-a-reference-genome)
 3.    [ Download data ](#Download-data)
 4.    [ Assess read quality ](#Assess-read-quality)
 5.    [ Quality trim ](#Quality-trim)
@@ -49,14 +49,14 @@ cd vc_workshop
 ```
 
 
-## Prepare Reference genome
+## Prepare a reference genome
 
 The first step is the prepare the reference genome. Most software packages that align short-read sequencing data to, or otherwise manipulate a reference genome require that genome to be indexed in some way. We will generate indexes using both `bwa` and `samtools`. For the workshop, a pre-indexed human genome is provided, but the code below shows how you can download and index a human genome yourself:
 
 ```bash
 # make bgzip available
 module load htslib
-# download a human genome, per Heng Li: https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use
+# download a human genome, version as recommended by Heng Li: https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use
 wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz
 # compress the genome using bgzip
 zcat GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz | bgzip >GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.gz
@@ -154,14 +154,14 @@ fastqc -t 4 -o ../fastqc ../rawdata/*fq
 
 The `*fq` indicates that fastqc should run on all files ending in "fq" in directory `rawdata/`. 
 
-Once the files are generated you have to transfer the file to your local computer to open it and examine the results carefully. To copy the file from the Xanadu cluster please use the `transfer.cam.uchc.edu` node.  
+Once the files are generated you'll have to transfer them to your local computer to open them and examine the results. To copy the file from the Xanadu cluster please use the `transfer.cam.uchc.edu` node.  
 
 You can use an ftp program, or the unix utility `scp` as:
 ```bash
 scp user_name@transfer.cam.uchc.edu:/FULL_PATH_to_FILES/*.html . 
 ```
 
-Again, `*html` will indicate that `scp` should copy all files ending in ".html"
+Again, `*html` will indicate that `scp` should copy all files ending in ".html". Once the files are downloaded, you can open them in a web browser. 
 
 INSERT FIGURES HERE? OR LEAVE THEM TO WORKSHOP? 
 ___
@@ -170,7 +170,7 @@ scripts:
 
 ## Quality trim ##
 
-Current variant callers account for uncertainties in mapping (conditional on the quality of the reference genome) and in base calling, so quality trimming is not generally necessary for this application (the worrisome sources of error in variant calling are "known unknowns", like the incompleteness of the reference genome, or systematic error arising from library prep). However, if you have a dataset plagued by adapter contamination or poor quality reads, you may want to try trimming to salvage it and/or remove some of the noise. 
+Current variant callers account for uncertainties in mapping (conditional on the quality of the reference genome) and in base calling, so quality trimming is not generally necessary for this application (the worrisome sources of error in variant calling are ["unknown unknowns"](https://en.wikipedia.org/wiki/There_are_known_knowns), like the incompleteness of the reference genome, or systematic error arising from library prep). However, if you have a dataset plagued by adapter contamination or poor quality reads, you may want to try trimming to salvage it and/or remove some of the noise. 
 
 `sickle` is a commonly used tool for this task. 
 
