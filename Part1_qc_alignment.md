@@ -37,7 +37,7 @@ Reference mapping is the dominant paradigm for discovering variants using high t
 
 Reference mapping contrasts with other approaches, such as de novo genome assembly with whole genome alignment, which is currently far more expensive and computationally demanding. 
 
-This section of the tutorial covers the first phase of the reference mapping approach, data QC, mapping, and post-processing of alignment files. 
+This section of the tutorial covers the first phase of the reference mapping approach: data QC, mapping, and post-processing of alignment files. 
 
 ## Set up a working directory ##
 
@@ -51,7 +51,7 @@ cd vc_workshop
 
 ## Prepare Reference genome
 
-Most software packages that align short-read sequencing data to, or otherwise manipulate a reference genome require that genome to be indexed in some way. We will generate indexes using both `bwa` and `samtools`. For the workshop, a pre-indexed human genome is provided, but the code below shows how it's done:
+The first step is the prepare the reference genome. Most software packages that align short-read sequencing data to, or otherwise manipulate a reference genome require that genome to be indexed in some way. We will generate indexes using both `bwa` and `samtools`. For the workshop, a pre-indexed human genome is provided, but the code below shows how you can download and index a human genome yourself:
 
 ```bash
 # make bgzip available
