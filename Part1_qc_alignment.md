@@ -286,15 +286,24 @@ scripts:
 - [scripts/Part1g_indexbams.sh](scripts/Part1g_indexbams.sh)
 
 
-# Exploring SAM files #
-
-_perhaps this should be broken out into a separate sub-section_
+## Exploring SAM files ##
 
 Now that we have processed alignment files we can learn about the sequence alignment format (SAM) and do some exploring. The ability to inspect and summarize various aspects of an alignment file can be especially helpful when something has gone wrong with sequencing or bioinformatic analysis. 
 
-There are no scripts for the section below. Run the code interactively. 
+The best place to go for information about the SAM format is the [formal specification](https://samtools.github.io/hts-specs/SAMv1.pdf). But here we can discuss some of the main fields. Below are two entries from a SAM file:
 
-Add discussion of SAM format here. 
+```
+HISEQ1:62:HB657ADXX:2:2106:14568:84364  1171    chr20   28557370        40      82M1D52M1I13M   =       28557055        -463    AGATGGTCTTGGTCCTTTTCCTGTTATGTGGAATCGTCAATTCAAATTTTAAAAGTGACTTTGAGATGTTTTTCATCTATTATCTAAAAATGTTGAAGGCGTTTTTAATTCTGCCTTCAACAGAGATCAACATACCTCTGATTATGAT    DDDDDDDDDDDDDDDDDDDDDDDDDDDDDEDDDDDDDDEDDEDDDECDDDDDDDDDDCDEEEEEEEFFFFHHHHHHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJIJIJJJJJJJJJJJJJJJJJJIHGAJHHHHHFFFFFCCC    NM:i:8  MD:Z:5T2C73^T1T43G0G3C14        MC:Z:69S79M     AS:i:106        XS:i:111        RG:Z:dad        XA:Z:chr20,+30424698,63M1D85M,7;chr4,-189273762,82M1D66M,9;
+HISEQ1:60:HB6D7ADXX:2:1116:1268:60355   83      chr20   28557379        40      4S126M1I17M     =       28557054        -468    GTCTTGGTCCTTTTCCTGTTATGTGGAATCGTCAATTCAAATTTTAAAAGTGACGTTGAGATGTTTTTCATCTATTATTTTAAAAACGTTGAAGGCGTTTTTAATTCTGCCTTCAACAGAGATCGACATACCTCTGATTATGATGTAA    ?A<AA<BDB?CDB@BCCCCCCDDDD@A@B<CCCEDCADDDDDDDCC@DDD@AABDDDDDDDDDDCEEDEEEFFFCBFFHGHHEH>CIJJJIIGJJGIIIGEIGD>HFGGDGGEGG@DIGGHFEFBCGHECGHHHIHHHHFDFEFFCC@    NM:i:5  MD:Z:50T31T36G4C18      MC:Z:30S118M    AS:i:116        XS:i:122        RG:Z:dad        XA:Z:chr20,+30424694,148M,6;chr4,-189273767,148M,8;chrUn_GL000219v1,-52002,12S136M,8;chr20,-29452832,12S136M,8;
+```
+The first column is the sequence name. The second is the "flag" column, which contains a variety of information about the alignment in a single number, all of which can be used for filtering reads. To decode this number, see [here](https://broadinstitute.github.io/picard/explain-flags.html). The third and fourth columns contain the reference sequence and position the read was mapped to. 
+
+The fifth column is the [phred-scaled](https://en.wikipedia.org/wiki/Phred_quality_score) mapping quality (i.e. 10^( QUAL / -10) = probability of incorrect alignment). This is a measure of how certain the mapper is that the read belongs in this position in the reference. It is contingent on the reference genome, so if one region is missing from the reference, but similar to a second region that is present, reads derived from the first region may map with high quality to the second. 
+
+After this comes the "cigar", which gives the actual alignment of the sequence to the reference in abbreviated format, followed by sequence and position of the mate pair sequence and the template length (if paired end sequencing was used). After that, the actual sequence and base qualities, followed by optional columns that may vary by read mapper. 
+
+
+There are no scripts for the section below. Run the code interactively. 
 
 _Useful links:_
 - [SAM specification](https://samtools.github.io/hts-specs/SAMv1.pdf)
