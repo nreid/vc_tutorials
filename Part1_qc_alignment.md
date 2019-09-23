@@ -209,7 +209,7 @@ Here `-t 4` indicates that the program should use four processors, and we feed `
 
 The `-R` flag specifies the read group information. Adding read group information is critical, though it does not have to be done at this stage (picard has a tool for adding read groups to alignment files). The read group can specify the source of the reads, including the library, sequencing machine, run, lane (for more see the SAM specification) but critically, for multisample variant calling it should include the sample ID. In this case we've specified the read group ID ("ID:") and the sample ID ("SM:") as the same thing. 
 
-When simultaneously calling variants on many samples, variant callers do not track reads by their alignment file of origin, but using read group information. If this information is absent, all reads will be treated as if they came from a single sample, and a single genotype call will result. Maintaining detailed read group information can also be helpful if some sequencing runs turn out to be problematic. In that case, even if all reads are pooled in a single bam file, there are tools you can use to filter out undesirable read groups on the fly.  
+When simultaneously calling variants on many samples, variant callers do not track reads by their alignment file of origin, but using read group information. If this information is absent, all reads will be treated as if they came from a single sample, and a single genotype call at each variable site will result. Maintaining detailed read group information can also be helpful if some sequencing runs turn out to be problematic. In that case, even if all reads are pooled in a single bam file, there are tools you can use to filter out undesirable read groups on the fly.  
 
 Finally, we'll compress the resulting alignment file:
 
@@ -217,7 +217,7 @@ Finally, we'll compress the resulting alignment file:
 samtools view -bhS ../rawdata/son.sam >../align_stepwise/son.bam
 ```
 
-Because we're doing all steps individually, you may note that at this point (if we've done the quality trimming) we now have 4 copies of our sequence data. 
+Because we're doing all steps individually, you will note that at this point (if we've done the quality trimming) we now have 4 copies of our sequence data. 
 ___
 scripts:	
 - [scripts/Part1c_align.sh](scripts/Part1c_align.sh)    
@@ -243,7 +243,7 @@ scripts:
 ## Mark duplicates ##
 
 Duplicate sequences are those which originate from the same molecule after extracting and shearing genomic DNA. There are two types: _optical_ and _polymerase chain reaction (PCR)_ duplicates. Optical duplicates are an error introduced by the sequencer. PCR duplicates are introduced by library prepartion protocols that use PCR. Duplicates cause 2 types of artifacts that mislead variant callers. 
-- __First__, errors introduced by the polymerase can be propagated to multiple copies of a given fragment. Because these errors are actually part of the DNA sequence, they are likely to have high base qualities. If many sequences from the fragment containing the error are present, the variant caller can be deceived into identifying it as true biological variation. 
+- __First__, errors introduced by the polymerase can be propagated to multiple copies of a given fragment. Because these errors are actually part of a DNA sequence, they are likely to have high base qualities. If many sequences from the fragment containing the error are present, the variant caller can be deceived into identifying it as true biological variation. 
 - __Second__, when variant callers call genotypes, they assume that heterozygous sites will have equal representation of both alleles in the sequence pool (as they should for germ-line mutations). Dramatically unbalanced coverage of an allele can be a signal that variation is spurious. Because of its exponential reproduction of fragments, PCR can randomly alter allele balance, or amplify small deviations in the initial sample, causing a variant caller to incorrectly call genotypes as homozygotes, or a truly variable site as invariant. 
 
 For these reasons we need to exclude duplicate sequences from variant calling. They can be identified most easily from paired-end data as those sequences for which both reads have identical start sites. This may eliminate some sequences which are in fact derived from unique fragments in the original library, but if fragmentation is actually random, identical fragments should be rare. Once identified, duplicate sequences can be marked and ignored during variant calling (or other types of analyses) downstream. 
@@ -278,7 +278,7 @@ The last step in preparing the reads is to index the bam files. This needs to be
 samtools index ../align_stepwise/*mkdup.bam
 ```
 
-Now we have completed the initial QC, alignment and processing steps. At this point, you may have noticed that we have accumulated six copies of our data. Two copies of the fastq files, and four copies of the alignment files. This is a large and space-wasting mess. If we were working with many samples of high coverage human genomes, we would want to go and delete the intermediate alignment files and the trimmed fastqs, keeping only the original fastqs and the analysis-ready bams. Another approach, detailed in Part 3, would pipe many of these steps together and avoid creating some of the intermediate files to begin with. 
+Now we have completed the initial QC, alignment and processing steps. At this point, you may have noticed that we have accumulated six copies of our data. Two copies of the fastq files, and four copies of the alignment files. This is a large and space-wasting mess. If we were working with many samples of high coverage human genomes, we would want to go and delete the intermediate alignment files and the trimmed fastqs, keeping only the original fastqs and the analysis-ready bams. Another approach, detailed in [Part 3](Part3_pipedalignment.md), would pipe many of these steps together and avoid creating some of the intermediate files to begin with. 
 
 ___
 
@@ -290,7 +290,7 @@ scripts:
 
 _perhaps this should be broken out into a separate sub-section_
 
-Now that we have processed alignment files we can learn about SAM files and do some exploring. The ability to inspect and summarize various aspects of an alignment file can be especially helpful when something has gone wrong with sequencing or bioinformatic analysis. 
+Now that we have processed alignment files we can learn about the sequence alignment format (SAM) and do some exploring. The ability to inspect and summarize various aspects of an alignment file can be especially helpful when something has gone wrong with sequencing or bioinformatic analysis. 
 
 There are no scripts for the section below. Run the code interactively. 
 
