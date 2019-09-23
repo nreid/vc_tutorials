@@ -290,6 +290,9 @@ scripts:
 
 Now that we have processed alignment files we can learn about the sequence alignment format (SAM) and do some exploring. The ability to inspect and summarize various aspects of an alignment file can be especially helpful when something has gone wrong with sequencing or bioinformatic analysis. 
 
+___
+
+
 The best place to go for information about the SAM format is the [formal specification](https://samtools.github.io/hts-specs/SAMv1.pdf). But here we can discuss some of the main fields. Below are two entries from a SAM file:
 
 ```
@@ -303,14 +306,9 @@ The fifth column is the [phred-scaled](https://en.wikipedia.org/wiki/Phred_quali
 After this comes the "cigar", which gives the actual alignment of the sequence to the reference in abbreviated format, followed by sequence and position of the mate pair sequence and the template length (if paired end sequencing was used). After that, the actual sequence and base qualities, followed by optional columns that may vary by read mapper. 
 
 
-There are no scripts for the section below. Run the code interactively. 
-
-_Useful links:_
-- [SAM specification](https://samtools.github.io/hts-specs/SAMv1.pdf)
-
-- [Explain SAM flags](https://broadinstitute.github.io/picard/explain-flags.html)
-
 ___
+
+Now we can explore an alignment file. There are no scripts for the sections below. Run the code interactively. 
 
 We can get a lot of basic stats on the SAM file using "samtools stats":
 
@@ -320,7 +318,7 @@ GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction
 # run samtools stats
 samtools stats -r $GEN son.mkdup.bam >son.samstat.txt
 ```
-This file is rather messy, but we can pull out specific parts of it using grep. 
+If you do `less son.samstat.txt` you'll see this file is pretty messy, but we can pull out specific parts of it using `grep`. 
 
 These are some basic stats about the alignment file:
 
@@ -333,11 +331,12 @@ This is a histogram of per base coverage:
 ```bash
 grep ^COV son.samstat.txt | cut -f 2-
 ```
+
 And there is much more information. 
 
 ___
 
-We can look at the per base coverage of individual regions easily using "samtools depth"
+We can look at the per base coverage of individual regions easily using `samtools depth`
 
 ```bash
 # make a list of bam files
