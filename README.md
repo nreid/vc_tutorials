@@ -1,6 +1,6 @@
 # Variant discovery tutorials
 
-In this repository, re-working variant detection tutorials for UConn CBC workshop. 
+This repository contains re-worked variant detection tutorials for UConn CBC workshop. 
 
 ## Introduction
 
@@ -12,7 +12,7 @@ Commands should never be executed on the submit nodes of any HPC machine.  If wo
 
 Basic editing of all scripts can be performed on the server with tools such as nano, vim, or emacs.  If you are new to Linux, please use [this](https://bioinformatics.uconn.edu/unix-basics) handy guide for the operating system commands.  In this tutorial, you will be working with common bioinformatic file formats, such as [FASTA](https://en.wikipedia.org/wiki/FASTA_format), [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format), [SAM/BAM](https://en.wikipedia.org/wiki/SAM_(file_format)), [GFF3/GTF](https://en.wikipedia.org/wiki/General_feature_format) and [VCF](https://en.wikipedia.org/wiki/Variant_Call_Format). You can learn even more about each file format [here](https://bioinformatics.uconn.edu/resources-and-events/tutorials/file-formats-tutorial/). If you do not have a Xanadu account and are an affiliate of UConn/UCHC, you can get one **[here](https://bioinformatics.uconn.edu/contact-us/)**.   
 
-__Proposed structure:__
+__Structure:__
 
 1. [ Stepwise QC, alignment, post-alignment processing ](/Part1_qc_alignment.md)
 
@@ -25,24 +25,32 @@ __Proposed structure:__
 
 	b. [ Variant calling: GATK, joint calling using gvcf ](Part4b_gatk.md)
 
-	c. Beyond variant calling: genotype likelihoods. (depending on audience?)
+	c. Beyond variant calling: genotype likelihoods. 
 
-5. [ Variant annotation ](Part5_variant_annotation.md) 
+5. [ Filtering and comparing variant sets ](Part5_filtering_comparing.md) 
+
+6. [ Variant annotation ](Part6_annotation.md)
 
 __Proposed data:__
 
-NIST Genome in a Bottle asian trio. chr20:29400000-34400000
+[NIST Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) chinese trio. 
+Region chr20:29400000-34400000
 
-an arbitrary 5mb region of the genome
+This is an arbitrary 5mb region of the genome. It is:
+- near the centromere. 
 - has a couple regions with mapping problems. 
 - takes only a few minutes to align. 
-- 50-100x coverage for each of 3 individuals. 
-	- 2x250bp pe for son
-	- 2x150bp pe for parents
+- 50-100x whole genome shotgun sequencing for each of 3 individuals. 
+	- 2x250bp paired-end reads for the son
+	- 2x150bp paired-end for the parents
 
-source:
-- https://www.nist.gov/programs-projects/genome-bottle
-- ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
+For a reference, we'll use GRCh38. The specific version we'll use is [recommended by Heng Li, author of bwa](https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use) for variant calling. 
+
+_Source:_
+- [GiaB](https://www.nist.gov/programs-projects/genome-bottle)
+- [sequencing data](ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/)
+- [Heng Li's recommendation](https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use)
+- [ftp for genome file](ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz)
 
 __Required software tools:__
 

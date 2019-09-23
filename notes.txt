@@ -68,3 +68,8 @@ asking for more resources for align script (12 procs instead of 4) to try to get
 		vcflib
 		
 
+## 19.09.23
+
+	where are we going to get the reference genome from?!
+
+	

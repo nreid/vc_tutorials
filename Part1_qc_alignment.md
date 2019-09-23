@@ -13,7 +13,6 @@ Steps here will use the following software packages:
 - [ sickle ](https://github.com/najoshi/sickle)
 - [ bedtools ](https://bedtools.readthedocs.io/en/latest/)
 - [ igv ](https://software.broadinstitute.org/software/igv/)
-- along with a variety of utilities available on unix-like operating systems.    
 
 Each major step has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
 
@@ -34,27 +33,41 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 ## Motivation
 
-ADD TEXT
+Reference mapping is the dominant paradigm for discovering variants using high throughput short read sequencing data. The general idea is to obtain short read sequences from either the whole genome or a set of target regions (e.g. through exome capture or RAD-seq), map those sequences back to a (hopefully) highly contiguous reference genome, and use a statistical model to discover variants and genotype individual samples. 
+
+Reference mapping contrasts with other approaches, such as de novo genome assembly with whole genome alignment, which is currently far more expensive and computationally demanding. 
+
+This section of the tutorial covers the first phase of the reference mapping approach, data QC, mapping, and post-processing of alignment files. 
 
 ## Set up a working directory ##
 
-We will begin the tutorial by setting up a working directory to organize the files we'll generate. From your home directory, enter the code below on the command line. 
+We will begin the tutorial by setting up a working directory to organize the files we'll generate. From your home directory, enter the code below on the command line to create a set of directories. 
 
 ```bash
 mkdir -p vc_workshop/rawdata vc_workshop/fastqc vc_workshop/align_stepwise vc_workshop/scripts
 cd vc_workshop
 ```
 
+
 ## Prepare Reference genome
 
-Most software packages that align short-read sequencing data or otherwise manipulate a reference genome require that genome to be indexed in some way. We will generate indexes using both `bwa` and `samtools`. For the workshop, a pre-indexed human genome is provided, but the code below shows how it's done:
+Most software packages that align short-read sequencing data to, or otherwise manipulate a reference genome require that genome to be indexed in some way. We will generate indexes using both `bwa` and `samtools`. For the workshop, a pre-indexed human genome is provided, but the code below shows how it's done:
 
 ```bash
+# make bgzip available
+module load htslib
+# download a human genome, per Heng Li: https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz
+# compress the genome using bgzip
+zcat GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz | bgzip >GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.gz
+rm GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz
 # set a variable 'GEN' that gives the location of the reference genome:
-GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+GEN=GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.gz
 bwa index $GEN
 samtools faidx $GEN
 ```
+
+If you are working on this tutorial somewhere other than UConn's xanadu cluster, you can make a directory called "reference", place this genome there, and edit following scripts to point at that version of the genome. 
 
 ## Download data ##
 
