@@ -61,7 +61,7 @@ _quality control_
 _alignment_  
 - [ bwa ](http://bio-bwa.sourceforge.net/)
 
-_sequence alignment manipulation and visualization  
+_sequence alignment manipulation and visualization_ 
 - [ samtools ](http://www.htslib.org/doc/samtools.html)
 - [ picard ](https://broadinstitute.github.io/picard/)
 - [ samblaster ](https://github.com/GregoryFaust/samblaster)
