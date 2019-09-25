@@ -349,7 +349,7 @@ We expect the parents to have 100x coverage and the son to have 50x coverage. Is
 
 ___
 
-Samtools has implemented a simple alignment viewer in 'tview'. IGV is better, but tview is right in the terminal. Let's look at the same region as above. 
+Samtools has implemented a simple alignment viewer in 'tview'. Let's look at the same region as above. 
 
 ```bash
 # set a variable 'GEN' that gives the location of the reference genome:
@@ -364,4 +364,13 @@ After opening tview, type 'g' then enter 'chr20:29637000' to visit that location
 
 ___
 
-IGV is a much better way of visualizing alignment files...
+IGV, which has a graphical user interface, is a much better way of visualizing alignment files than `tview`. To use that, however, we'll have to run it locally. If you're working on the xanadu cluster, that means you'll have to download some files. 
+
+For this exercise, we want to download `align_stepwise/son.mkdup.bam` and `align_stepwise/son.mkdup.bai`. You can do that using either the linux utility `scp` or using GUI ftp software. 
+
+After you've done that and launched IGV, you'll need to change the default genome by going the "Genomes" menu, choosing "Load Genome From Server" and choosing "Human hg38". 
+
+Then go to the "File" menu and choose "Load from File" and select son.mkdup.bam. 
+
+You can visit the same region we examined previously, chr20:29637000-29643000, by entering the region in the dialog box at the top of the window and pressing the "Go" button. 
+

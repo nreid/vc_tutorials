@@ -23,7 +23,19 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 ## Motivation
 
-ADD TEXT
+In [Part 1](/Part1_qc_alignment.md), we conducted the first phase of the reference-mapping approach to variant discovery: we aligned short read sequencing data to a reference genome and prepared the alignment files for variant calling. In this part, we'll see how we evaluate the resulting sequence alignments for evidence of variation using `bcftools`, which applies a statistical model to evaluate the evidence for variation. 
+
+Why do we apply a statistical model to discover variants? Why can't we just say "this observed sequence differs from the reference genome at this position, therefore we have found a variant"?
+
+In short, because the sequence data we observe have been passed to us through several messy and error-prone laboratory and computational processes. We can break down this pipeline into several steps:
+
+1. _Sampling the genome:_ A diploid individual has two copies of each chromosome. If this individual is heterozygous for a given site, the probability that we only observe the reference allele is 0.5^n, where n is the number of (non-duplicate) sequences. We still have a 3.125% chance of failing to observe the alternate allele given 5x coverage of the site. 
+2. _Library preparation:_ During library preparation, polymerases can misincorporate bases. These bases will be read by the sequencer and likely assigned high base quality scores. If PCR is used during library preparation, random changes in the allele balance at heterozygous sites can be introduced, or existing random biases from the pool of extracted DNA can be amplified, exacerbating the problem in the previous step. 
+3. _Sequencing:_ When we load our library of DNA fragments onto the sequencer to be analyzed, the machine may read bases incorrectly. 
+4. _Reference mapping:_ After sequencing our library, we must map the sequences back to the reference genome. Most reference genomes are a) incomplete and b) have many copies of similar or identical sequences. These issues can mean that a DNA fragment mapped back to the reference genome may not actually have been derived from that region. Differences between it and the reference therefore don't represent the kind of polymorphism we're looking for. 
+5. _Sequence alignment:_ Even if we have assigned a DNA fragment to the correct location in the genome, we still need to align it properly. If there are indels, this can become very difficult and there may be several equally likely alignments. 
+
+So, all of this is to say that when we observe a set of sequences aligned to the reference genome, and there appear to be some bases that differ, we need a statistical model that can account for these complex sources of error to help us decide whether that variation is real and assign genotypes to individuals. 
 
 ## Update your working directory
 
@@ -35,9 +47,9 @@ mkdir variants_bcftools
 
 ## Generate a pileup file
 
-`bcftools` uses a two step procedure to call variants. First it generates a pileup file using `bcftools mpileup`. The pileup file summarizes the per base coverage at each site in the genome. Each row represents a genomic position, and each position that has sequencing coverage is present in the file. The second step, using `bcftools call` actually applies a statistical model to evaluate the evidence for variation represented in that summary and generates output in the variant call format (VCF). 
+`bcftools` uses a two step procedure to call variants. First it generates a pileup file using `bcftools mpileup`. The pileup file summarizes the per base coverage at each site in the genome. Each row represents a genomic position, and each position that has sequencing coverage is present in the file. The second step, using `bcftools call` actually applies the statistical model to evaluate the evidence for variation represented in that summary and generate output in the variant call format (VCF). 
 
-Because pileup files for whole genome sequencing contain every site in the genome, they can be huge. We also don't typically need to look at them, or do anything with them, so if you use this approach on your own data, you will usually simply pipe the output of `bcftools mpileup` directly to `bcftools call` (for further discussion of the use of pipes, see section 3). 
+Because pileup files for whole genome sequencing contain a summary for every site in the genome for every sample, they can be very large. We also don't typically need to look at them directly, or do anything with them outside of th variant calling. So if you use this approach on your own data, you will usually simply pipe the output of `bcftools mpileup` directly to `bcftools call` (for further discussion of the use of pipes, see section 3). 
 
 For demonstration purposes here, we'll keep the steps separate. 
 
@@ -62,7 +74,7 @@ scripts:
 
 ## Call variants
 
-The second step is to evaluate the evidence (summarized in the pileup file) that the sequence variation we observe is true biological variation, and not errors introduced during library preparation and sequencing. Here we use `bcftools call`. 
+The second step is to evaluate the evidence (summarized in the pileup file) that the sequence variation we observe is true biological variation, and not errors introduced during library preparation, sequencing, mapping and alignment. Here we use `bcftools call`. 
 
 ```bash
 bcftools call -m -v -Oz -o chinesetrio.vcf.gz chinesetrio.pileup
